@@ -1,3 +1,20 @@
+.mr-photo .swiper-mr-photo .swiper-button {
+    top: unset;
+    bottom: 0;
+    height: 36px;
+    width: 36px;
+    border-radius: 12px;
+}
+
+.mr-photo .swiper-mr-photo .swiper-button-prev {
+    left: unset;
+    right: 120px;
+}
+
+.mr-photo .swiper-mr-photo .swiper-pagination {
+    display: none;
+}
+
 .swiper-mr-stages .swiper-button-next {
     display: flex;
     height: 26px;
@@ -163,6 +180,10 @@
         padding: 14px 12px;
     }
 
+    .mr-widget.mr-widget--team {
+        padding: 14px;
+    }
+
     .mr-navigation .mr-navigation-box {
         flex-direction: column;
         height: auto;
@@ -239,6 +260,266 @@
     .mr-team .mr-team-grid {
         gap: 8px
     }
+
+        .mr-widget.mr-widget--preview {
+        padding: 14px;
+    }
+
+    .mr-widget .mr-preview {
+        gap: 12px
+    }
+
+    .mr-widget .mr-preview-content {
+        gap: 12px
+    }
+
+    .mr-widget .mr-photo-item {
+        max-height: 250px;
+    }
+
+    .mr-widget .swiper-mr-video .swiper-slide {
+        max-width: 150px;
+    }
+
+    .mr .mr-col h3 {
+        font-size: 16px;
+    }
+
+    .mr-photo-params .mr-photo-param {
+        padding: 7px 12px;
+        font-size: 12px;
+        min-height: 26px;
+        gap: 8px
+    }
+
+    .mr-teammate-action .mr-teammate-action-visual {
+        width: 18px;
+        height: 18px;
+    }
+
+    .mr-photo-params .mr-photo-param-visual {
+        height: 14px;
+        width: 10px;
+    }
+
+    .mr-widget.mr-widget--stages {
+        padding: 14px;
+    }
+
+    .mr-widget .mr-stages {
+        gap: 12px
+    }
+
+    .mr-widget .mr-video-item {
+        max-height: 80px;
+        max-width: 150px;
+    }
+
+    .mr-aspect-content .mr-aspect-desc {
+        font-size: 14px;
+    }
+
+    .mr-aspect-heading .mr-aspect-title {
+        font-size: 12px;
+    }
+
+    .mr-teammate.is-opened .mr-teammate-contacts {
+        padding: 8px 20px 10px 18px;
+    }
+
+    .mr-teammate .mr-teammate-card {
+        padding-right: 30px;
+        flex: 1;
+    }
+
+    .mr-teammate .mr-teammate-action {
+        min-width: 28px;
+    }
+
+    .mr-teammate-contact .mr-teammate-contact-action {
+        width: 12px;
+        height: 12px;
+    }
+
+    .mr-teammate-contact .mr-teammate-contact-visual-icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .mr-teammate-contact .mr-teammate-contact-visual {
+        width: 12px;
+        height: 12px;
+    }
+
+    .mr-teammate .mr-teammate-contacts {
+        padding-right: 20px;
+        gap: 6px
+    }
+
+    .mr-teammate.is-opened .mr-teammate-contacts::before {
+        display: block;
+    }
+
+    .mr-teammate .mr-teammate-visual {
+        width: 44px;
+        height: 44px;
+    }
+
+    .mr-team-grid .mr-teammate.is-opened .mr-teammate-card {
+        padding: 6px 18px 10px 8px;
+    }
+
+    .mr-team-grid .mr-teammate .mr-teammate-card {
+        padding: 6px 30px 10px 8px;
+    }
+
+    .mr-teammate .mr-teammate-data {
+        gap: 4px
+    }
+
+    .mr-teammate-data .mr-teammate-name {
+        font-size: 12px;
+    }
+
+    .mr-teammate-data .mr-teammate-position {
+        font-size: 12px;
+        line-height: 10.7px;
+    }
+
+    .mr-teammate-contacts .mr-teammate-contact {
+        font-size: 12px;
+        gap: 4px
+    }
+
+    .mr-about .mr-participants .mr-participants-action {
+        padding: 9px;
+        font-size: 12px;
+    }
+
+    .mr-preview-heading .mr-preview-definition {
+        font-size: 12px;
+    }
+
+    .mr-stage-data .mr-stage-visual {
+        height: 16px;
+        width: 16px;
+    }
+
+    .swiper-mr-stages .swiper-button-prev {
+        margin-top: -27px; 
+    }
+
+    .swiper-mr-stages .swiper-button-next {
+        margin-top: -27px; 
+    }
+
+    .mr-stage .mr-stage-line {
+        top: 7px
+    }
+
+    .mr-preview .mr-preview-heading {
+        gap: 20px
+    }
+
+    .mr-preview-definitions .mr-preview-definition-visual {
+        height: 12px;
+        width: 12px;
+    }
+
+    .mr-preview-heading .mr-preview-definitions {
+        gap: 12px
+    }
+
+    .mr-preview-definitions .mr-preview-definition {
+        gap: 6px
+    }
+
+    .mr-participants .mr-participants-visual {
+        height: 18px;
+        width: 18px;
+    }
+
+    .swiper-slide .mr-stage {
+        min-width: 88px;
+    }
+
+    .swiper-slide .mr-stage-title {
+        font-size: 12px;
+    }
+
+    .mr-widget .mr-team {
+        gap: 8px
+    }
+
+    .mr-team-actions .mr-button-content {
+        font-size: 12px;
+    }
+
+    .mr-team-actions .mr-button-visual {
+        padding: 3px;
+    }
+
+    .mr-team-actions .mr-button {
+        gap: 0px
+    }
+
+    .mr-team-grid .mr-teammate {
+        flex-direction: row;
+    }
+
+    .mr-photo .swiper-mr-photo .swiper-button {
+        top: unset;
+        bottom: 0;
+        height: 26px;
+        width: 26px;
+        border-radius: 9px;
+    }
+}
+
+@media (max-width: 1919px) {
+
+    .mr-about-aspects .mr-aspects {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 0;
+        column-gap: 12px;
+    }
+
+    .mr-photo .swiper-mr-photo .swiper-button-prev {
+        right: 80px;
+    }
+
+    .mr-about .mr-about-content {
+        gap: 15px
+    }
+
+    .mr-widget.mr-widget--about {
+        padding: 14px;
+    }
+
+    .mr-about-aspects .mr-aspect {
+        padding: 12px 0;
+        gap: 8px
+    }
+
+    .mr-parameter-content .mr-parameter-value {
+        font-size: 16px;
+    }
+
+    .mr-parameter .mr-parameter-content {
+        gap: 4px
+    }
+
+    .mr-parameter-content .mr-parameter-desc {
+        font-size: 12px;
+    }
+
+    .mr-about-parameters .mr-parameters {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .mr-parameter-heading .mr-parameter-title {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 1439px) {
@@ -310,6 +591,24 @@
         gap: 16px
     }
 
+    .mr-photo .swiper-mr-photo .swiper-button {
+        display: none;
+        visibility: hidden;
+    }
+
+    .mr-about-aspects .mr-aspect {
+        padding: 0;
+    }
+
+    .mr-about .mr-about-content {
+        gap: 20px
+    }
+
+    .mr-about-aspects .mr-aspects {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 16px;
+    }
+
     .mr-finance .mr-finance-groups {
         flex-direction: column;
     }
@@ -336,5 +635,13 @@
 
     .mr-finance-stat-content .mr-finance-stat-desc {
         font-size: 14px;
+    }
+
+    .mr-parameter-content .mr-parameter-value {
+        font-size: 18px;
+    }
+
+    .mr-about-parameters .mr-parameters {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
