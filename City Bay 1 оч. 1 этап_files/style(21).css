@@ -1,0 +1,28 @@
+body #header-inner {
+    padding: 0;
+}
+
+.header-search-wrapper {
+    margin-right: 22px;
+}
+
+.header-search-wrapper .main-ui-filter-search {
+    border-radius: 10px;
+}
+
+.header-search-wrapper  .main-ui-filter-search-filter {
+    padding: 0 16px 0 16px;
+}
+
+@media screen and (min-width: 1701px) {
+    #header #header-inner .header-search-wrapper .main-ui-filter-search {
+        min-width: 200px;
+    }
+}
+
+@media screen and (max-width: 1050px)
+{
+    body .main-ui-filter-search {
+       min-width: 200px;
+    }
+}

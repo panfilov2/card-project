@@ -1,0 +1,398 @@
+let counter = 0
+
+function counterEditor (number) {
+    counter = number
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    initSubMenuElements()
+
+    if($('.circle__photo').length)
+        circlePhotoItems();
+
+    if($('.slider').length)
+        customSlider()
+
+    if($('.circle__photo').length)
+        openPhotoMainContainer()
+
+    if($('.spoiler__block').length)
+        hideBlockSale()
+})
+
+    function openPhotoMainContainer () {
+        const previewPhotos = document.querySelectorAll('.circle__photo')
+        const slides = document.querySelector('.slides');
+        previewPhotos.forEach((item) => {
+            item.addEventListener('click', () => {
+
+                counterEditor(+event.target.dataset.number)
+
+                const currentIndexConst = event.target.dataset.number
+
+                slides.style.transform = `translateX(-${currentIndexConst * 100}%)`
+
+                choiceCurrentPreviewPhoto(currentIndexConst, false)
+            })
+        })
+    }
+
+    function circlePhotoItems () {
+        let circle = document.querySelector('.circle__photo')
+        let container = document.querySelector('.preview__slider')
+        const images = document.querySelectorAll('.slides img');
+        if(circle && circle.dataset)
+            var count = +circle.dataset.number
+
+        images.forEach((item) => {
+
+            count++
+
+            let addClone = circle.cloneNode(true)
+
+            addClone.dataset.number = String(count)
+
+            container.append(addClone)
+        })
+
+        let lengthArrCircles = document.querySelectorAll('.circle__photo')
+
+        if(lengthArrCircles)
+        {
+            lengthArrCircles[lengthArrCircles.length - 1].remove()
+            lengthArrCircles[lengthArrCircles.length - lengthArrCircles.length].classList.add('active')
+        }
+    }
+
+
+
+    function choiceCurrentPreviewPhoto (currentIndexArg, popup) {
+        let arrPhoto = document.querySelectorAll('.preview__slider .circle__photo')
+        let title = document.querySelector('.demonstration__place-title')
+
+        arrPhoto.forEach((item) => {
+            item.classList.remove('active')
+        })
+
+        popup ? document.querySelector('.image__scale-img').src = document.querySelectorAll('.slides img')[counter].src : ''
+
+        popup ? document.querySelector('.popup-window-close-icon').click() : ''
+
+        popup ? document.querySelectorAll('.slides img')[counter].click() : ''
+
+        document.querySelectorAll('.preview__slider .circle__photo')[counter].classList.add('active')
+
+        previewPhotos(counter)
+
+        title.textContent = document.querySelectorAll('.slides img')[counter].dataset.title
+    }
+
+
+
+    function customSlider () {
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelector('.slides');
+        const images = document.querySelectorAll('.slides img');
+        const prevButton = document.querySelector('.prev-btn');
+        const prevButtonPopup = document.querySelector('.popup-prev-btn');
+        const nextButtonPopup = document.querySelector('.popup-next-btn');
+        const nextButton = document.querySelector('.next-btn');
+
+        let title = document.querySelector('.demonstration__place-title')
+
+        function nextSlide(popup) {
+            counter = (counter + 1) % images.length;
+            updateSlider(document.querySelectorAll('.slides img')[counter].height);
+
+            choiceCurrentPreviewPhoto(counter, popup)
+
+            previewPhotos(counter)
+
+            title.textContent = document.querySelectorAll('.slides img')[counter].dataset.title
+
+            counterEditor(counter)
+
+        }
+
+        function prevSlide(popup) {
+            counter = (counter - 1 + images.length) % images.length;
+            updateSlider(document.querySelectorAll('.slides img')[counter].height);
+
+            choiceCurrentPreviewPhoto(counter, popup)
+
+            previewPhotos(counter)
+
+            title.textContent = document.querySelectorAll('.slides img')[counter].dataset.title
+
+            counterEditor(counter)
+
+        }
+
+        function updateSlider() {
+            slides.style.transform = `translateX(-${counter * 100}%)`;
+            previewPhotos(counter)
+        }
+
+        nextButton.addEventListener('click', () => {
+            nextSlide(false)
+        } );
+        prevButton.addEventListener('click', () => {
+            prevSlide(false)
+        });
+
+        prevButtonPopup.addEventListener('click', () => {
+            prevSlide(true)
+        });
+        nextButtonPopup.addEventListener('click', () => {
+            nextSlide(true)
+        });
+
+        updateSlider(document.querySelectorAll('.slides img')[counter].naturalHeight)
+
+    }
+
+
+    function initSubMenuElements() {
+        let submenu = document.querySelectorAll('.submenu__container')
+        submenu && submenu.forEach((item) => {
+            item.addEventListener('click', () => {
+                item.querySelector('.header__menu-link__submenu').classList.toggle('is-active')
+                if (item.querySelector('.header__menu-link__submenu').className.includes('is-active')) {
+                    toggleMenu(item, true)
+                } else {
+                    toggleMenu(item, false)
+                }
+            })
+        })
+    }
+
+    function toggleMenu(activeItem, flag) {
+        if (flag) {
+            let submenu = document.querySelectorAll('.submenu__container')
+            submenu && submenu.forEach((item) => {
+                if (
+                    item.querySelector('.header__menu-link__submenu').className.includes('is-active') &&
+                    item !== activeItem
+                ) {
+                    let submenuLink = item.querySelector('.header__menu-link__submenu')
+                    submenuLink.style.height = '0px'
+                    submenuLink.classList.remove('is-active')
+                }
+            })
+            let submenuActive = document.querySelector('.header__menu-link__submenu.is-active')
+            let submenuLinkBlock = document.querySelectorAll(
+                '.header__menu-link__submenu > .header__menu-link__submenu-link-block'
+            )
+            submenuActive.style.height = "fit-content"
+        } else {
+            let submenu = activeItem.querySelector('.header__menu-link__submenu')
+            submenu.style.height = '0px'
+        }
+
+    }
+
+    function hideBlockSale () {
+        let block = document.querySelectorAll('.spoiler__block')
+
+        block.forEach((item) => {
+            item.addEventListener('click', () => {
+                let parent = item.dataset.parent
+                let subtitles = document.querySelector('.plan__info-subtitles[data-child="'+parent+'"]');
+                subtitles.classList.toggle('hide-block')
+                item.querySelector('.spoiler__block-arrow').classList.toggle('is-active')
+                console.log(document.querySelector('.plan__info-information'), 'plan__info-information');
+                console.log(document.querySelector('.plan__info-rhythm'), 'plan__info-information');
+            })
+        })
+
+    }
+
+    // function openVideo () {
+    //     let videos = document.querySelectorAll('.video__block')
+    //
+    //     videos.forEach((item) => {
+    //         item.addEventListener('click', () => {
+    //             document.querySelector('.dialog__window').classList.add('show')
+    //             document.querySelector('.image__scale-img').style.display = 'none'
+    //             document.querySelector('.image__scale > .video__block').style.display = 'block'
+    //
+    //             document.querySelector('.plus__scale').style.display = 'none'
+    //             document.querySelector('.minus__scale').style.display = 'none'
+    //         })
+    //     })
+    //
+    //
+    //
+    //     let widthVideo = document.querySelector('.workarea-content-paddings').offsetWidth
+    //     let heightVideo = document.querySelector('.workarea-content-paddings').offsetHeight
+    //     let iframe = document.createElement('iframe')
+    //
+    //     widthVideo = widthVideo - 400
+    //     heightVideo = heightVideo - 200
+    //
+    //     widthVideo = widthVideo > 960 ? 960 : widthVideo
+    //     heightVideo = heightVideo > 560 ? 560 : heightVideo
+    //
+    //     iframe.width = widthVideo + 16
+    //     iframe.height = heightVideo + 16
+    //
+    //
+    //
+    //     iframe.src = `https://videocam.online/wowza2.php?id=Slava.stream&width=${widthVideo}&height=${heightVideo}&autoplay=true`
+    //
+    //
+    //     document.querySelector('#iframe').appendChild(iframe)
+    // }
+
+    // function closePhoto() {
+    //     document.querySelector('.close__scale').addEventListener('click', () => {
+    //         document.querySelector('.dialog__window').classList.remove('show')
+    //     })
+    // }
+
+document.addEventListener('DOMContentLoaded', () => {
+    listeners()
+})
+
+    const slides = document.querySelector('.scroll__container');
+    const images = document.querySelectorAll('.scroll__container img');
+    const arrPhotos = document.querySelectorAll('.preview__slider-img')
+
+    function listeners () {
+        arrPhotos.forEach((item) => {
+            item.addEventListener('click', () => {
+                choicePreviewPhotoForPopup(item.dataset.number)
+            })
+        })
+    }
+
+    function previewPhotos (index) {
+        removeActiveStatus()
+
+        arrPhotos[index].classList.add('active')
+
+
+    }
+
+    function removeActiveStatus () {
+        let arrPhotos = document.querySelectorAll('.preview__slider-img')
+        arrPhotos.forEach((item) => {
+            item.classList.remove('active')
+        })
+    }
+
+    function choicePreviewPhotoForPopup (number) {
+        let trueNumber = +number - 1
+
+        counterEditor(trueNumber)
+
+        document.querySelector('.image__scale-img').src = document.querySelectorAll('.preview__slider-img')[counter].src
+
+        document.querySelector('.popup-window-close-icon').click()
+
+        document.querySelectorAll('.slides img')[counter].click()
+
+        removeActiveStatus()
+
+        document.querySelectorAll('.preview__slider-img')[counter].classList.add('active')
+    }
+
+    function scrollBarPopup () {
+        let prevLink = document.querySelector('#prev-btn')
+        let nextLink = document.querySelector('#next-btn')
+        let maybeLinksContainer = 0
+        let maybeLinks = document.querySelectorAll('.scroll__container > img')
+        let stepScroll = 480
+        let scrollAmount = 0;
+        let scrollMin = 0;
+        let scrollMax = 0
+
+        window.scrollTo(0,-2000)
+
+        setTimeout(() => {
+
+            console.log(maybeLinks, 'maybeLinks');
+
+            for(let i = 0; i < maybeLinks.length; i++) {
+                scrollMax += maybeLinks[i].clientWidth
+            }
+
+
+
+
+            document.querySelector('.preview__slider-img.active').scrollIntoView(false)
+
+            scrollMax = scrollMax + maybeLinks.length * 20
+
+            maybeLinksContainer = document.querySelector('.scroll__container')
+
+            // scrollMax = scrollMax - maybeLinksContainer.clientWidth
+            maybeLinksContainer.addEventListener('scroll', (eve) => {
+                scrollAmount = eve.currentTarget.scrollLeft
+
+                console.log(scrollAmount, 'scrollAmount');
+
+                if (scrollAmount >= scrollMax) {
+                    scrollAmount = scrollMax
+                    nextLink.style.display = 'none'
+                } else {
+                    nextLink.style.display = 'block'
+                }
+
+                if (scrollAmount <= 0) {
+                    prevLink.style.display = 'none'
+                } else {
+                    prevLink.style.display = 'block'
+                }
+            })
+
+            console.log(maybeLinksContainer.clientWidth, scrollMax, 'width');
+
+            if (scrollMax >= maybeLinksContainer.clientWidth) {
+                console.log('true')
+                nextLink.addEventListener('click', () => {
+                    if (scrollAmount >= scrollMax) {
+                        scrollAmount = scrollMax
+                    }
+                    maybeLinksContainer.scrollTo({
+                        top: 0,
+                        left: scrollAmount += stepScroll,
+                        behavior: 'smooth'
+                    })
+
+                    if (scrollAmount >= scrollMax) {
+                        nextLink.style.display = 'none'
+                    }
+                    prevLink.style.display = 'block'
+                })
+
+                prevLink.onclick = function () {
+                    if (scrollAmount >= scrollMax) {
+                        scrollAmount = scrollMax
+
+                    }
+                    maybeLinksContainer.scrollTo({
+                        top: 0,
+                        left: scrollAmount -= stepScroll,
+                        behavior: 'smooth'
+                    });
+
+
+                    if (scrollAmount <= 0) {
+                        scrollAmount = 0
+                        prevLink.style.display = 'none'
+                    }
+
+                    nextLink.style.display = 'block'
+                };
+            } else {
+                nextLink.style.display = 'none'
+                prevLink.style.display = 'none'
+            }
+        },10)
+    }
+
+
+
+// -------------------------------------------------------

@@ -1,0 +1,30 @@
+$(function(){
+
+    $(document).on('click', '#open-tasks-modal', function(e){
+        e.preventDefault();
+
+        var modalTasksPopup = BX.PopupWindowManager.create("modalTasksPopup", null, {
+            autoHide: true,
+            offsetLeft: 0,
+            offsetTop: 0,
+            overlay : true,
+            draggable: {restrict:true},
+            closeByEsc: true,
+            closeIcon: { right : "12px", top : "10px"},
+            content: BX.message('JS_DATA_TASKS_MODAL'),
+        });
+
+        modalTasksPopup.show();
+
+    });
+
+	$(document).on('click', '.suip_tasks_analitika', function(e){
+
+
+		BX.ajax.runAction('suip:main.api.StatHit.setCustomHit', {
+			data: {
+				'url' : '/suip/hit/check_list/',
+			},
+		})
+    });
+});

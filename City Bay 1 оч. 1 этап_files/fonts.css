@@ -1,0 +1,53 @@
+@import url('../fonts/Inter/inter.css');
+
+
+@font-face {
+  font-family: 'Suisse-Intl-Regular';
+  src:
+    url('../fonts/SuisseIntl-Regular.woff') format('woff'),
+    url('../fonts/SuisseIntl-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url('../fonts/SuisseIntl.woff2') format('woff2'),
+    url('../fonts/SuisseIntl.woff') format('woff'),
+    url('../fonts/SuisseIntl.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    url('../fonts/suisseintl-semibold.woff2') format('woff2'),
+    url('../fonts/suisseintl-semibold.woff') format('woff'),
+    url('../fonts/suisseintl-semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    url('../fonts/suisseintl-bold.woff2') format('woff2'),
+    url('../fonts/suisseintl-bold.woff') format('woff'),
+    url('../fonts/suisseintl-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Grtsk Giga';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url('../fonts/Grtsk-MediumGiga.woff2') format('woff2'),
+    url('../fonts/Grtsk-MediumGiga.woff') format('woff'),
+    url('../fonts/Grtsk-MediumGiga.ttf') format('truetype');
+}

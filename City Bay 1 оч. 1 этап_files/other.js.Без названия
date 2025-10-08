@@ -1,0 +1,40 @@
+$(function() {
+    $('.js-favourite-star').click(function(event) {
+        event.preventDefault();
+        var that = $(this);
+        $.ajax({
+            method: 'post',
+            data: {project: that.data('project')},
+            url: '/local/ajax/favourite/',
+            success: function () {
+                that.toggleClass('mr-projects__project-favorite-button_saved');
+                //location.reload();
+            }
+        });
+        return false;
+    });
+	
+	$('.select2').select2({language: 'ru'});
+});
+
+function sendProjectAccessRequest(projectId, requested, $ob) {
+    if (!requested) {
+        BX.UI.Dialogs.MessageBox.confirm('Запросить доступ к проекту?', '', function () {
+            $.ajax({
+                method: 'post',
+                data: {project: projectId},
+                url: '/local/ajax/access/request/',
+                success: function (response) {
+                    BX.UI.Dialogs.MessageBox.alert(response);
+                    if($ob)
+                    {
+                        $($ob).addClass('mr-projects__queue-link_access');
+                    }
+                }
+            });
+            return true;
+        });
+    } else {
+        BX.UI.Dialogs.MessageBox.alert('Доступ уже запрошен, ожидайте решения уполномоченного лица.');
+    }
+}

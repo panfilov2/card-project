@@ -1,0 +1,456 @@
+.icon-svg {
+    display: inline-block;
+    height: 1em;
+    fill: currentColor;
+}
+
+    .icon-svg--ads {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--advertisement {
+        width: calc(16 / 15 * 1em);
+    }
+    .icon-svg--analytics_market {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--ant-design_credit-card-outlined {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--arrow-left {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--arrow-left-in-circle {
+        width: calc(16 / 16 * 1em);
+    }
+    .icon-svg--arrow-pagination-next {
+        width: calc(8 / 12 * 1em);
+    }
+    .icon-svg--arrow-pagination-prev {
+        width: calc(8 / 12 * 1em);
+    }
+    .icon-svg--arrow-right {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--arrow-right {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--arrow-round {
+        width: calc(24 / 25 * 1em);
+    }
+    .icon-svg--avatar-filled {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--bell {
+        width: calc(14 / 16 * 1em);
+    }
+    .icon-svg--birthday {
+        width: calc(22 / 24 * 1em);
+    }
+    .icon-svg--blog {
+        width: calc(15 / 15 * 1em);
+    }
+    .icon-svg--book-number {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--budget {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--burger-menu {
+        width: calc(17 / 12 * 1em);
+    }
+    .icon-svg--calendar {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--calendar_menu {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--calendar_new {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--carbon_delivery-parcel {
+        width: calc(70 / 74 * 1em);
+    }
+    .icon-svg--carbon_help-desk {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--check {
+        width: calc(12 / 10 * 1em);
+    }
+    .icon-svg--cil_taxi {
+        width: calc(70 / 72 * 1em);
+    }
+    .icon-svg--client-service {
+        width: calc(40 / 41 * 1em);
+    }
+    .icon-svg--client_path {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--clock {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--clock {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--clock-2 {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--close {
+        width: calc(10 / 10 * 1em);
+    }
+    .icon-svg--comment {
+        width: calc(16 / 17 * 1em);
+    }
+    .icon-svg--company {
+        width: calc(24 / 32 * 1em);
+    }
+    .icon-svg--company-home {
+        width: calc(24 / 27 * 1em);
+    }
+    .icon-svg--digitization {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--disk {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--disk {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--doc {
+        width: calc(12 / 14 * 1em);
+    }
+    .icon-svg--document-user {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--door {
+        width: calc(46 / 64 * 1em);
+    }
+    .icon-svg--ecology {
+        width: calc(26 / 39 * 1em);
+    }
+    .icon-svg--emp_company {
+        width: calc(54 / 54 * 1em);
+    }
+    .icon-svg--emp_faq {
+        width: calc(50 / 50 * 1em);
+    }
+    .icon-svg--eye {
+        width: calc(14 / 11 * 1em);
+    }
+    .icon-svg--eye-open {
+        width: calc(16 / 17 * 1em);
+    }
+    .icon-svg--faq {
+        width: calc(22 / 19 * 1em);
+    }
+    .icon-svg--file-doc {
+        width: calc(21 / 21 * 1em);
+    }
+    .icon-svg--garant {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--gift {
+        width: calc(18 / 20 * 1em);
+    }
+    .icon-svg--heart {
+        width: calc(12 / 15 * 1em);
+    }
+    .icon-svg--home {
+        width: calc(14 / 15 * 1em);
+    }
+    .icon-svg--home-group {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--idea {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--info {
+        width: calc(6 / 15 * 1em);
+    }
+    .icon-svg--interview {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--k-team {
+        width: calc(500 / 450 * 1em);
+    }
+    .icon-svg--kb {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--leaders {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--learning {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--like {
+        width: calc(16 / 17 * 1em);
+    }
+    .icon-svg--link-arrow {
+        width: calc(20 / 21 * 1em);
+    }
+    .icon-svg--lk {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--location {
+        width: calc(18 / 18 * 1em);
+    }
+    .icon-svg--log_error {
+        width: calc(20 / 17 * 1em);
+    }
+    .icon-svg--logo_auth {
+        width: calc(187 / 52 * 1em);
+    }
+    .icon-svg--main_menu_icon {
+        width: calc(9 / 17 * 1em);
+    }
+    .icon-svg--main_menu_icon {
+        width: calc(65 / 60 * 1em);
+    }
+    .icon-svg--media-gallery {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--meeting_rooms {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--menu-sale-center {
+        width: calc(16 / 15 * 1em);
+    }
+    .icon-svg--menu_ai {
+        width: calc(16 / 13 * 1em);
+    }
+    .icon-svg--menu_all_groups {
+        width: calc(20 / 14 * 1em);
+    }
+    .icon-svg--menu_analytics {
+        width: calc(16 / 16 * 1em);
+    }
+    .icon-svg--menu_bizproc_sect {
+        width: calc(18 / 14 * 1em);
+    }
+    .icon-svg--menu_calendar {
+        width: calc(16 / 17 * 1em);
+    }
+    .icon-svg--menu_company {
+        width: calc(16 / 13 * 1em);
+    }
+    .icon-svg--menu_conference {
+        width: calc(17 / 10 * 1em);
+    }
+    .icon-svg--menu_configs_sect {
+        width: calc(15 / 13 * 1em);
+    }
+    .icon-svg--menu_contact_center {
+        width: calc(14 / 14 * 1em);
+    }
+    .icon-svg--menu_crm_favorite {
+        width: calc(18 / 13 * 1em);
+    }
+    .icon-svg--menu_crm_tracking {
+        width: calc(13 / 13 * 1em);
+    }
+    .icon-svg--menu_devops_sect {
+        width: calc(20 / 14 * 1em);
+    }
+    .icon-svg--menu_employee {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--menu_external_mail {
+        width: calc(14 / 10 * 1em);
+    }
+    .icon-svg--menu_files {
+        width: calc(17 / 12 * 1em);
+    }
+    .icon-svg--menu_graph-up {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--menu_im_messenger {
+        width: calc(16 / 15 * 1em);
+    }
+    .icon-svg--menu_knowledge {
+        width: calc(17 / 15 * 1em);
+    }
+    .icon-svg--menu_live_feed {
+        width: calc(14 / 15 * 1em);
+    }
+    .icon-svg--menu_marketing {
+        width: calc(17 / 17 * 1em);
+    }
+    .icon-svg--menu_marketplace_sect {
+        width: calc(14 / 15 * 1em);
+    }
+    .icon-svg--menu_onec_sect {
+        width: calc(23 / 13 * 1em);
+    }
+    .icon-svg--menu_openlines {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--menu_rpa {
+        width: calc(19 / 15 * 1em);
+    }
+    .icon-svg--menu_services_sect {
+        width: calc(11 / 15 * 1em);
+    }
+    .icon-svg--menu_settings {
+        width: calc(12 / 12 * 1em);
+    }
+    .icon-svg--menu_shop {
+        width: calc(18 / 15 * 1em);
+    }
+    .icon-svg--menu_sites {
+        width: calc(16 / 13 * 1em);
+    }
+    .icon-svg--menu_tasks {
+        width: calc(16 / 15 * 1em);
+    }
+    .icon-svg--menu_timeman_sect {
+        width: calc(16 / 16 * 1em);
+    }
+    .icon-svg--message {
+        width: calc(14 / 15 * 1em);
+    }
+    .icon-svg--messenger {
+        width: calc(16 / 16 * 1em);
+    }
+    .icon-svg--my_calendar {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--new_employee {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--new_users {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--news {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--number {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--office {
+        width: calc(16 / 20 * 1em);
+    }
+    .icon-svg--old-portal {
+        width: calc(17 / 17 * 1em);
+    }
+    .icon-svg--org-tree {
+        width: calc(14 / 13 * 1em);
+    }
+    .icon-svg--parking {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--partners {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--pdf {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--pencil {
+        width: calc(528.9 / 528.9 * 1em);
+    }
+    .icon-svg--pep {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--phone {
+        width: calc(11 / 16 * 1em);
+    }
+    .icon-svg--phonebook {
+        width: calc(24 / 25 * 1em);
+    }
+    .icon-svg--photo-filter {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--plan {
+        width: calc(31 / 29 * 1em);
+    }
+    .icon-svg--policy {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--production_system {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--profit {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--rating {
+        width: calc(15 / 17 * 1em);
+    }
+    .icon-svg--search {
+        width: calc(17 / 17 * 1em);
+    }
+    .icon-svg--settings {
+        width: calc(12 / 13 * 1em);
+    }
+    .icon-svg--shop {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--slider-arrow-left {
+        width: calc(8 / 15 * 1em);
+    }
+    .icon-svg--slider-arrow-right {
+        width: calc(8 / 15 * 1em);
+    }
+    .icon-svg--sort-arrow {
+        width: calc(14 / 14 * 1em);
+    }
+    .icon-svg--star {
+        width: calc(330 / 340 * 1em);
+    }
+    .icon-svg--statistics {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--structure {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--support {
+        width: calc(64 / 71 * 1em);
+    }
+    .icon-svg--support {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--task-list {
+        width: calc(13 / 15 * 1em);
+    }
+    .icon-svg--tasks_and_projects {
+        width: calc(17 / 17 * 1em);
+    }
+    .icon-svg--tb {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--trade_union {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--tree-structure {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--tree-view {
+        width: calc(20 / 20 * 1em);
+    }
+    .icon-svg--trunk_projects {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--useful_links {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--user-circle {
+        width: calc(22 / 22 * 1em);
+    }
+    .icon-svg--vacancies {
+        width: calc(33 / 32 * 1em);
+    }
+    .icon-svg--vacancy {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--video-camera {
+        width: calc(24 / 24 * 1em);
+    }
+    .icon-svg--whh_business {
+        width: calc(13 / 32 * 1em);
+    }
+    .icon-svg--work {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--work_places {
+        width: calc(32 / 32 * 1em);
+    }
+    .icon-svg--work_safety {
+        width: calc(28 / 32 * 1em);
+    }

@@ -1,0 +1,309 @@
+BX.ready(function () {
+    var oPopup = new BX.PopupWindow('call_feedback', null, {
+        className: 'pgk-feedback-popup',
+        autoHide: true,
+        lightShadow: true,
+        closeIcon: true,
+        closeByEsc: true,
+        titleBar: {
+            content: BX.create('span', {
+                html: 'Обратная связь'
+            })
+        },
+        overlay: {
+            backgroundColor: 'black', opacity: '80'
+        },
+        buttons: [
+            new BX.PopupWindowButton({
+                text: "Отправить",
+                className: "ui-btn ui-btn-primary",
+                events: {
+                    click: function () {
+                        let sendForm = true;
+                        let select = document.querySelector('.pgk-feedback-form .select2-container');
+
+                        BX.removeClass('js-feedback-form-text', 'error-border');
+                        BX.removeClass(select, 'error-border');
+
+                        if (BX('js-feedback-form-text').value.length == 0) {
+                            sendForm = false;
+                            BX.addClass('js-feedback-form-text', 'error-border');
+                        }
+                        if (BX('js-feedback-form-theme').value === '') {
+                            sendForm = false;
+                            BX.addClass(select, 'error-border');
+                        }
+                        if (sendForm) {
+                            sendFormFeedback(oPopup, oPopupSuccess);
+                        }
+                    }
+                }
+            }),
+            new BX.PopupWindowButton({
+                text: "Отмена",
+                className: "ui-btn",
+                events: {
+                    click: function () {
+                        this.popupWindow.close(); // закрытие окна
+                    }
+                }
+            })
+        ]
+    });
+
+    var oPopupSuccess = new BX.PopupWindow('call_feedback_success', null, {
+        className: 'pgk-feedback-popup pgk-feedback-success-popup',
+        titleBar: {
+            content: BX.create('span', {
+                html: 'Обратная связь'
+            })
+        },
+        autoHide: true,
+        lightShadow: true,
+        closeIcon: true,
+        closeByEsc: true,
+        overlay: {
+            backgroundColor: 'black', opacity: '80'
+        },
+        buttons: [
+            new BX.PopupWindowButton({
+                text: "Закрыть",
+                className: "ui-btn",
+                events: {
+                    click: function () {
+                        oPopupSuccess.setContent('');
+                        this.popupWindow.close();
+                    }
+                }
+            })
+        ]
+    });
+
+    oPopup.setContent(BX('js-feedback'));
+
+    BX.bind(BX('js-feedback-button'), 'click', function () {
+        BX.removeClass('js-feedback-form-text', 'error-border');
+        BX.removeClass('js-feedback-form-theme', 'error-border');
+        oPopup.show();
+    });
+    BX.bind(BX('js-support-button'), 'click', function () {
+        BXIM.openMessenger('chat99850');
+    });
+
+    $('.mf-input-file-row input[type=file]').on('change', function () {
+        let files_list = $(this).closest('.mf-input-file');
+        let span = $(this).next();
+
+        if (files_list[0].lastElementChild.className === 'input-file-remove' && this.files.length > 0) {
+            dt.items.remove(0);
+            files_list[0].firstElementChild.remove();
+            files_list[0].lastElementChild.remove();
+        }
+
+        if (this.files.length > 0) {
+            files_list.prepend('<span class="input-current-file-text">Файл:</span>');
+            span[0].textContent = this.files[0].name;
+            span[0].classList.replace('input-file-add', 'input-current-file');
+            files_list.append('<a href="#" onclick="removeFilesItem(this); return false;" class="input-file-remove">x</a>');
+            dt.items.add(this.files[0]);
+        }
+        this.files = dt.files;
+    });
+
+    window.addEventListener('resize', () => {
+        setFirstRowMaxWidth('#suip_menu_top', '.main-buttons-item');
+    });
+
+    function setFirstRowMaxWidth(containerSelector, itemSelector) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+
+        container.style.maxWidth = '';
+
+        const items = Array.from(container.querySelectorAll(itemSelector));
+        if (items.length === 0) return;
+
+        const firstNonZeroItem= items.find(item => item.offsetWidth > 0);
+
+        let firstRowTop;
+        if (firstNonZeroItem)  firstRowTop = firstNonZeroItem.getBoundingClientRect().top;
+
+        let totalWidth = 0;
+
+        for (const item of items) {
+            if (item.getBoundingClientRect().top === firstRowTop) {
+                const style = getComputedStyle(item);
+                const marginLeft = parseFloat(style.marginLeft) || 0;
+                const marginRight = parseFloat(style.marginRight) || 0;
+                totalWidth += item.offsetWidth + marginLeft + marginRight;
+              }
+        }
+        
+        if (totalWidth > 0) {
+            container.style.maxWidth = `${totalWidth}px`;
+        }
+    }
+
+    setFirstRowMaxWidth('#suip_menu_top', '.main-buttons-item');
+});
+
+/**
+ * Отправка формы
+ * @param {type} oPopup
+ * @param {type} oPopupSuccess
+ * @returns {undefined}
+ */
+function sendFormFeedback(oPopup, oPopupSuccess) {
+
+    const formData = new FormData(BX('js-feedback-form'));
+    const bxFormData = new BX.ajax.FormData();
+
+    for (let [name, value] of formData) {
+        bxFormData.append(name, value);
+    }
+
+    BX.removeClass('js-feedback-form-text', 'error-border');
+    BX.removeClass('js-feedback-form-theme', 'error-border');
+
+    bxFormData.send(
+        '/local/components/korus/feedback/ajax.php',
+        function (data) {
+            let dataOb = BX.parseJSON(data);
+            oPopup.close();
+            BX('js-feedback-form-text').value = '';
+            BX('js-feedback-form-theme').value = '';
+            BX('select2-js-feedback-form-theme-container').textContent = 'Выберите тему обращения';
+            BX('select2-js-feedback-form-theme-container').title = 'Выберите тему обращения';
+            if (dt.items.length > 0) {
+                removeFilesItem($('.input-file-remove'));
+            }
+            oPopupSuccess.setContent(dataOb.data.html);
+            oPopupSuccess.show();
+        },
+        null, //тут может быть колбэк для прогресс-бара
+        function (error) {
+            oPopupSuccess.setContent('Ошибка отправки обращения');
+            oPopupSuccess.show();
+            console.log(`error: ${error}`); //колбэк при ошибке
+        }
+    );
+}
+
+const dt = new DataTransfer();
+
+function removeFilesItem(target) {
+    let input = $(target).closest('.mf-input-file-row').find('input[type=file]');
+    let span = input[0].previousElementSibling;
+    if (dt.items.length > 0) {
+        dt.items.remove(0);
+        $(target).prev()[0].classList.replace('input-current-file', 'input-file-add');
+        $(target).prev()[0].textContent = 'Добавить файл'
+        $(target).remove();
+        span.remove();
+    }
+    input[0].files = dt.files;
+}
+
+
+
+$(function(){
+
+
+    const burgerMenuOpenedClass = 'burger-menu-opened';
+
+    const closeMenu = () => {
+        if (document.body.classList.contains(burgerMenuOpenedClass)) {
+            document.body.classList.remove(burgerMenuOpenedClass);
+        }
+    };
+
+    const createNode = (template) => {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = template;
+
+        return wrapper.firstElementChild;
+    };
+
+    const createBurgerLinkItem = ($defaultNode, text) => {
+        if (!$defaultNode || !text) {
+            return null;
+        }
+
+        const $burgerLinkItem = createNode(`
+            <li class="burger-menu__link-wrapper">
+                <button class="burger-menu__link" type="button">${text}</button>
+            </li>
+        `);
+
+        const $burgerLink = $burgerLinkItem.querySelector('.burger-menu__link');
+
+        $burgerLink.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            evt.stopImmediatePropagation();
+
+            closeMenu();
+
+            $defaultNode.click();
+        });
+
+        return $burgerLinkItem;
+    };
+
+    const $burgerButton = document.querySelector('#js-mobile-menu-show-btn');
+    const $header = document.querySelector('#header');
+    const $bxPanel = document.querySelector('#bx-panel');
+
+    if (!$burgerButton || !$header) {
+        return;
+    }
+
+    const $defaultProfile = $header.querySelector('#js-user-block');
+    const $defaultHelp = $header.querySelector('.header-content > a');
+    const [
+        $defaultTasksButton,
+        $defaultCheckListButton,
+        $defaultRequestsButton
+    ] = $header.querySelectorAll(
+        '.pgk-feedback-wrapper .base-button',
+    );
+
+
+    const burgerMenuTemplate = (`
+        <div class="burger-menu">
+            <ul class="burger-menu__links"></ul>
+        </div>
+    `);
+
+    const $burgerMenu = createNode(burgerMenuTemplate);
+    const $burgerMenuLinksList = $burgerMenu.querySelector('.burger-menu__links');
+
+    var arLinks = [];
+    $header.querySelectorAll(
+        '.pgk-feedback-wrapper .base-button',
+    ).forEach(function (currentValue, currentIndex, listObj){
+        arLinks.push(createBurgerLinkItem(currentValue, currentValue.innerHTML.trim()))
+    })
+
+    arLinks.filter(($burgerLinkItem) => !!$burgerLinkItem)
+        .forEach(($burgerLinkItem) => {
+            $burgerMenuLinksList.appendChild($burgerLinkItem);
+        });
+
+    $burgerButton.addEventListener('click', () => {
+        var topPx = $header.offsetHeight;
+        if ($bxPanel){
+            topPx += $bxPanel.offsetHeight;
+        }
+
+        $burgerMenu.style.setProperty('top', `${topPx}px`);
+
+        document.body.classList.toggle(burgerMenuOpenedClass);
+    });
+
+    window.addEventListener('resize', () => {
+        closeMenu();
+    });
+
+    document.body.appendChild($burgerMenu);
+
+})

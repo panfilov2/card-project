@@ -1,0 +1,76 @@
+.btn__container {
+    height: 39px;
+    margin-right: 10px;
+}
+
+.btn__container .ui-btn {
+    padding: 4px 12px !important;
+    background-color: #754BE9;
+    border: none;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.btn__container .ui-btn:active, .btn__container .ui-btn:focus {
+    background-color: #754BE9;
+}
+
+.btn__container .ui-btn-text {
+    color: #fff;
+    text-transform: none;
+    line-height: calc(var(--ui-btn-height) - 2px);
+    font-weight: 700;
+    font-size: 14px !important;
+}
+
+@media screen and (max-width: 1599px)
+{
+    .btn__container .ui-btn {
+        padding: 5px 10px !important;
+        background-color: #754BE9;
+        border: none;
+    }
+
+    .btn__container .ui-btn-text {
+        font-size: 12px !important;
+    }
+}
+
+@media screen and (max-width: 1023px)
+{
+    .btn__container {
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 920px)
+{
+    .btn__container {
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 820px)
+{
+    .btn__container {
+        margin-left: 10px;
+    }
+
+    .btn__container .ui-btn {
+        padding: 0 5px;
+    }
+}
+
+@media screen and (max-width: 779px)
+{
+    .btn__container {
+        margin-right: 10px;
+    }
+}
+
+@media screen and (max-width: 767px)
+{
+    .btn__container {
+        display: none;
+    }
+}

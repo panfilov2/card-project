@@ -1,0 +1,3 @@
+$(function(){
+	BX.UI.Hint.init(BX('suip-card-wrap-container'));
+});

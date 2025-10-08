@@ -1,0 +1,265 @@
+.ui-toolbar, .pagetitle-inner-container {
+	background-color: #090714 !important;
+}
+
+.main-ui-square{
+	background-color: #754BE9 !important;
+}
+
+.main-ui-square-item, .main-ui-item-icon{
+	color: #ffffff !important;
+}
+
+.pagetitle{
+    color: #fff !important;
+}
+
+.image__scale-img {
+	object-fit: contain;
+}
+
+div.queue__links {
+    justify-content: flex-start
+}
+
+div.queue__links > a {
+    margin-right: 5px 
+}
+
+a {
+    color: black;
+}
+
+.bx-layout-inner-left {
+    display: none;
+}
+
+tr td.bx-layout-inner-inner-cont {
+    padding: 0;
+}
+
+.bx-layout-inner-inner-top-row td.bx-layout-inner-inner-cont {
+	height: auto;
+}
+
+div.workarea-inner {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+	background: #fff;
+}
+
+.projects__container {
+    justify-content: center;
+}
+
+div.projects__block:nth-child(3n) {
+    margin-right: 0;
+}
+
+.header__menu-link__submenu-link-icon img {
+    width: 15px;
+    height: 15px;
+}
+
+.slider__video {
+    justify-content: flex-start;
+}
+
+.pos-r.swiper-slide.video__block {
+    width: auto !important;
+}
+
+#project_list_search_container {
+    margin: 0;
+}
+
+.pgk-feedback-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.pgk-feedback-wrapper button {
+    margin: 0 30px;
+}
+
+body .user-name:after {
+    display: none;
+}
+
+.edit__input {
+    max-width: 60px;
+}
+
+sup {
+    font-size: 60%;
+    vertical-align: super;
+}
+
+.left-block.plan__info-subtitles {
+	height: auto;
+}
+
+.left-block.plan__info-subtitles.hide-block {
+	display: none;
+}
+
+.plan__info-rhythm-block.left-block .plan__info-info {
+	width: auto;
+}
+
+.tasks-list-files-icon svg path {
+	fill: #e0e0e0;
+}
+
+.tasks-list-files-icon.active svg path {
+	fill: #754BE9;
+}
+
+.cell-input-comment-changer-container {
+	display: inline;
+}
+
+.bx-disk-interface-filelist {
+	margin: 0 0 0 0;
+}
+
+.profile-menu.profile-menu-group {
+	/* display: none; */
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.plan-header .demonstration__title {
+    margin-top: 0;
+}
+
+.header-search-wrapper {
+    max-height: inherit;
+}
+
+.pgk-feedback-wrapper div {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.pgk-feedback-wrapper div a.base-button { 
+	display: block;
+	min-width: inherit;
+	padding-left: 25px;
+	padding-right: 0;
+}
+
+span.plan__info-info__crew {
+	width: 280px;
+}
+
+.profile-menu-bottom {
+	display: none;
+}
+
+#uiToolbarContainer {
+	margin: 0;
+}
+
+.ui-btn-icon-disk, .js-disk-trashcan-button, .js-disk-settings-button  {
+	display: none;
+
+}	
+
+@media screen and (max-width: 1599px) {
+	div.header-logo-block {
+		flex-basis: 210px;
+		padding-left: 25px;
+	}
+	div#header-inner {
+		height: auto;
+	}
+}
+
+@media screen and (min-width: 1600px) {
+	div.header-logo-block {
+		flex-basis: 280px;
+		padding-left: 40px;
+	}
+	
+	.pgk-feedback-wrapper div a.base-button { 
+		padding-left: 40px;
+	}
+
+	div#header-inner {
+		height: auto;
+	}
+	
+	.dgtl-tasks-task-add {
+		margin-bottom: 2px;
+	}
+}
+
+.dgtl-tasks-task-add {
+    width: 16px;
+    display: flex;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 5px;
+	margin-right: 10px;
+	/* margin-bottom: 2px; */
+}
+
+.dgtl-tasks-task-add svg {
+    fill: #fff;
+    display: block;
+    padding: 2px;
+    width: 100%;
+    height: 100%;
+	border: 2px solid #fff;
+	border-radius: 5px;
+}
+
+.dgtl-tasks-task-add:hover {
+    background: #754BE9;
+    border: 1px solid #754BE9;
+}
+
+.dgtl-tasks-task-add:hover svg {
+    fill: #fff;
+}
+
+.js-disk-trashcan-button  {
+	display: none;
+}
+
+.ui-btn-icon-disk  {
+	display: none;
+}
+
+.plan__info-project-tasks-vekhi .ui-ears-wrapper {
+	display: block;
+}
+
+.bitrix-workgroups-request-counter {
+	background: #c60440;
+    color: #fff;
+    display: inline-flex;
+    /*width: 20px;
+    height: 20px;*/
+    border-radius: 10px;
+    justify-content: center;
+    /*position: absolute;*/
+    align-items: center;
+    margin-left: 5px;
+    padding: 3px;
+}
+
+html {
+    /* overflow: auto; */
+} 
+
+.plan__info-project.not-visible {
+    display: none;
+}

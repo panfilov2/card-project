@@ -1,0 +1,554 @@
+$(function () {
+
+    // Функция определения ширины viewport в пикселях и сохранение в переменной
+    function updateViewportWidth() {
+        const viewportWidth = $(window).width();
+        $(':root').css('--viewport-width', `${viewportWidth}`);
+    }
+
+    //если админ - расчет отступа шапки в карточке
+    bitrixPanel = document.getElementById('panel');
+
+	function pinHeaderBlock()
+	{
+		htop = document.getElementById('header-inner').offsetHeight;
+
+		if(bitrixPanel && bitrixPanel.offsetHeight)
+			htop = htop + bitrixPanel.offsetHeight;
+
+		//$('.mr-navigation').css('top', htop);
+	
+	}
+
+	if(bitrixPanel)
+	{
+		window.addEventListener('resize', function () {
+			pinHeaderBlock();
+		});
+
+		setTimeout(function(){
+			pinHeaderBlock();
+		}, 0)
+	}
+
+    // Инициализация функции ширины viewport
+    updateViewportWidth();
+
+    // Обновление функции ширины viewport при ресайзе
+    $(window).on('resize', updateViewportWidth);
+
+    // Функция для обработки клика вне блока и нажатия Esc
+    function toggleClassOnOutsideClick(blockSelector, activeClass) {
+
+        // Обработчик клика по документу
+        $(document).on('click', function(event) {
+            // Проверяем, что клик не по блоку и не по его дочерним элементам
+            if (!$(event.target).closest(blockSelector).length) {
+                $(blockSelector).removeClass(activeClass);
+            }
+        });
+
+        // Обработчик нажатия Esc
+        $(document).on('keydown', function(event) {
+            if (event.key === 'Escape' || event.keyCode === 27) {
+                $(blockSelector).removeClass(activeClass);
+            }
+        });
+    }
+
+    // Мобильное меню
+    // Обработчик клика на mr-nav-link
+    $('.mr-nav-link').on('click', function(e) {
+        const $nav = $('.mr-nav');
+        const $navItem = $(this).closest('.mr-nav-item');
+        const $subnavItem = $('.mr-subnav-item');
+        const hasSubnav = $navItem.find('.mr-subnav').length > 0;
+
+        $nav.addClass('is-active');
+        $subnavItem.removeClass('is-active');
+
+        if (hasSubnav) {
+            e.preventDefault();
+            // Если у текущего mr-nav-item уже есть is-active, убираем его
+            if ($navItem.hasClass('is-active')) {
+                $nav.removeClass('is-active');
+                $navItem.removeClass('is-active');
+            } else {
+                // Удаляем is-active у всех mr-nav-item в пределах текущего mr-nav
+                $navItem.closest('.mr-nav').find('.mr-nav-item').removeClass('is-active');
+                // Добавляем is-active только текущему mr-nav-item
+                $navItem.addClass('is-active');
+            }
+        }
+    });
+
+    // Обработчик клика на mr-subnav-link-arrow
+    $('.mr-subnav-link-arrow').on('click', function(e) {
+        e.preventDefault(); // Блокируем стандартное поведение
+        const $subnavItem = $(this).closest('.mr-subnav-item');
+        const hasInnernav = $subnavItem.find('.mr-innernav').length > 0;
+
+        if (hasInnernav) {
+            // Если у текущего mr-subnav-item уже есть is-active, убираем его
+            if ($subnavItem.hasClass('is-active')) {
+                $subnavItem.removeClass('is-active');
+            } else {
+                // Удаляем is-active у всех mr-subnav-item в пределах текущего mr-subnav
+                $subnavItem.closest('.mr-subnav').find('.mr-subnav-item').removeClass('is-active');
+                // Добавляем is-active только текущему mr-subnav-item
+                $subnavItem.addClass('is-active');
+            }
+        }
+    });
+
+    // Обработчик клика по документу для закрытия всех подменю
+    $(document).on('click', function(e) {
+        // Проверяем, что клик произошёл вне mr-nav
+        if (!$(e.target).closest('.mr-nav').length) {
+            $('.mr-nav').removeClass('is-active');
+            $('.mr-nav-item').removeClass('is-active');
+            $('.mr-subnav-item').removeClass('is-active');
+        }
+    });
+
+    // Функция форматирования числа с пробелами
+    $.fn.formatNumber = function() {
+
+        this.each(function() {
+
+            // Получение текста из элемента и удаление пробелов
+            let value = $(this).text().replace(/\s/g, '');
+
+            // Проверка на число числом (с учётом . или ,)
+            let decimalSeparator = value.includes('.') ? '.' : (value.includes(',') ? ',' : null);
+            let parts = decimalSeparator ? value.split(decimalSeparator) : [value];
+            let integerPart = parts[0];
+            let decimalPart = parts[1] || '';
+
+            // Проверка является ли целая часть числом
+            if (!isNaN(integerPart) && integerPart !== '') {
+
+                // Форматирование целой части с добавлением пробелов после каждых 3 цифры с конца
+                let formattedInteger = Number(integerPart).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+                // Сбор итогового значения
+                let formatted = decimalSeparator && decimalPart ? formattedInteger + decimalSeparator + decimalPart : formattedInteger;
+
+                $(this).text(formatted);
+            }
+        });
+
+        return this;
+
+    };
+
+    // Инициализация компонента форматирования числа с пробелами
+    $('.js-format-number').formatNumber();
+
+    // Открытие списка участников
+    $.fn.participantsComponent = function() {
+
+        this.each(function() {
+
+            let $component = $(this);
+
+            let $button = $component.find('.js-action');
+            let $buttonText = $button.find('.js-action-text');
+            let $content = $component.find('.js-content');
+
+            // Изначально скрываем контент
+            $content.hide();
+
+            // Обработчик клика по кнопке
+            $button.on('click', function() {
+
+                $component.toggleClass('is-active');
+
+                $content.slideToggle(300, function() {
+                    // Меняем текст кнопки после завершения анимации
+                    $buttonText.text($content.is(':visible') ? 'Скрыть участников' : 'Участники проекта');
+                });
+
+            });
+        });
+
+        return this;
+
+    };
+
+    // Инициализация компонента команды
+    $('.js-participants').participantsComponent();
+
+    // Открытие списка участников
+    $.fn.teammateComponent = function() {
+
+        this.each(function() {
+
+            let $component = $(this);
+
+            let $button = $component.find('.js-action');
+            let $content = $component.find('.js-content');
+
+            // Обработчик клика по кнопке
+            $button.on('click', function() {
+                $component.toggleClass('is-opened');
+            });
+            
+            $content.on('click', function(event) {
+                //исключим ссылку
+                if(event.target.tagName == 'A')
+                {
+                    //continue
+                }
+                else if($(event.target).parents('.mr-teammate-contact').length)
+                {
+                    //continue
+                }
+                else
+                {
+                    $component.toggleClass('is-opened');
+                }
+                
+            });
+
+        });
+
+        return this;
+
+    };
+
+    // Инициализация компонента списка участников
+    $('.js-teammate').teammateComponent();
+
+    // Открытие карты на слайдере
+    $.fn.previewLocationComponent = function() {
+
+        this.each(function() {
+
+            let $component = $(this);
+
+            let $button = $component.find('.js-action');
+            let $content = $component.find('.js-content');
+
+            // Обработчик клика по кнопке
+            $button.on('click', function() {
+                $component.toggleClass('is-opened');
+            });
+
+        });
+
+        return this;
+
+    };
+
+    // Инициализация компонента карты на слайдере
+    $('.js-location').previewLocationComponent();
+
+    // Клик вне области карты на слайдере
+    toggleClassOnOutsideClick('.js-location', 'is-opened');
+
+    function copyToClipboard(buttonSelector, textSelector, messageSelector, contactSelector) {
+        $(buttonSelector).on('click', function() {
+            // Находим ближайший родительский контейнер .mr-teammate-contact
+            let $contact = $(this).closest(contactSelector);
+
+            // Находим текст для копирования внутри этого контейнера
+            let textToCopy = $contact.find(textSelector).text();
+
+            // Создаем временный textarea для копирования
+            let $temp = $('<textarea>');
+            $('body').append($temp);
+            $temp.val(textToCopy).select();
+
+            // Выполняем копирование
+            try {
+                document.execCommand('copy');
+
+                // Находим блок сообщения внутри того же контейнера
+                let $message = $contact.find(messageSelector);
+
+                // Показываем сообщение
+                $message.addClass('is-active');
+
+                // Скрываем сообщение через 1 секунду
+                setTimeout(function() {
+                    $message.removeClass('is-active');
+                }, 1000);
+
+            } catch (err) {
+                console.error('Ошибка при копировании: ', err);
+            }
+
+            // Удаляем временный элемент
+            $temp.remove();
+        });
+    }
+
+    copyToClipboard('.mr-teammate-contact-action', '.mr-teammate-contact-text', '.mr-teammate-contact-message', '.mr-teammate-contact');
+
+    // FANCYBOX
+    if(typeof window.Fancybox !== 'undefined')
+    {
+        Fancybox.bind("[data-fancybox]", {
+            groupAll: false, // Отключаем группировку всех элементов
+            loop: false, // Отключаем циклическую навигацию
+            autoFocus: false, // Отключаем автофокус
+            backFocus: false, // Предотвращаем возврат фокуса на триггер
+            Hash: false,
+            Html: {
+                autoSize: false,
+            },
+        }); 
+    }
+    
+
+    if(typeof window.Swiper !== 'undefined')
+    {
+        // СЛАЙДЕРЫ
+        let commonSwiperSettings = {
+            observer: true,
+            observeParents: true,
+            observeSlideChildren: true,
+            resizeObserver: true,
+        };
+
+        // Слайдер 'Табы навигации'
+        const swiperMrTabs = new Swiper('.swiper-mr-tabs', {
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+            loop: false,
+
+            ...commonSwiperSettings,
+
+            pagination: {
+                el: '.swiper-mr-tabs .swiper-pagination',
+                clickable: true,
+                bullets: true
+            },
+
+            navigation: {
+                nextEl: '.swiper-mr-tabs .swiper-button-next',
+                prevEl: '.swiper-mr-tabs .swiper-button-prev',
+            },
+
+            scrollbar: {
+                el: '.swiper-mr-tabs .swiper-scrollbar',
+                draggable: true,
+            },
+
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+
+                },
+
+                // when window width is >= 640px
+                640: {
+
+                },
+
+                // when window width is >= 980px
+                980: {
+
+                },
+
+                // when window width is >= 1200px
+                1200: {
+
+                }
+            },
+        });
+
+        // Слайдер 'Превью Изображения'
+        const swiperMrPhoto = new Swiper('.swiper-mr-photo', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            loop: true,
+
+            ...commonSwiperSettings,
+
+            pagination: {
+                el: '.swiper-mr-photo .swiper-pagination',
+                clickable: true,
+                bullets: true
+            },
+
+            navigation: {
+                nextEl: '.swiper-mr-photo .swiper-button-next',
+                prevEl: '.swiper-mr-photo .swiper-button-prev',
+            },
+
+            scrollbar: {
+                el: '.swiper-mr-photo .swiper-scrollbar',
+                draggable: true,
+            },
+
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+                    spaceBetween: 8,
+                },
+
+                // when window width is >= 640px
+                640: {
+
+                },
+
+                // when window width is >= 980px
+                980: {
+
+                },
+
+                // when window width is >= 1200px
+                1200: {
+
+                }
+            },
+        });
+
+        // Слайдер 'Превью Видео'
+        const swiperMrVideo = new Swiper('.swiper-mr-video', {
+            slidesPerView: 'auto',
+            spaceBetween: 15,
+            loop: false,
+
+            //slidesPerView: 3, // Показывать 3 слайда одновременно
+            slidesPerGroup: 3, // Прокручивать 3 слайда за клик
+
+            ...commonSwiperSettings,
+
+            pagination: {
+                el: '.swiper-mr-video .swiper-pagination',
+                clickable: true,
+                bullets: true
+            },
+
+            navigation: {
+                nextEl: '.swiper-mr-video .swiper-button-next',
+                prevEl: '.swiper-mr-video .swiper-button-prev',
+            },
+
+            scrollbar: {
+                el: '.swiper-mr-video .swiper-scrollbar',
+                draggable: true,
+            },
+
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+                    spaceBetween: 15,
+                },
+
+                // when window width is >= 640px
+                640: {
+
+                },
+
+                // when window width is >= 980px
+                980: {
+
+                },
+
+                // when window width is >= 1200px
+                1200: {
+
+                }
+            },
+        });
+
+        // Слайдер 'Проектная команда'
+        const swiperMrTeam = new Swiper('.swiper-mr-team', {
+            slidesPerView: 'auto',
+            spaceBetween: 16,
+            loop: false,
+
+            ...commonSwiperSettings,
+
+            pagination: {
+                el: '.swiper-mr-team .swiper-pagination',
+                clickable: true,
+                bullets: true
+            },
+
+            navigation: {
+                nextEl: '.swiper-mr-team .swiper-button-next',
+                prevEl: '.swiper-mr-team .swiper-button-prev',
+            },
+
+            scrollbar: {
+                el: '.swiper-mr-team .swiper-scrollbar',
+                draggable: true,
+            },
+
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+
+                },
+
+                // when window width is >= 640px
+                640: {
+
+                },
+
+                // when window width is >= 980px
+                980: {
+
+                },
+
+                // when window width is >= 1200px
+                1200: {
+
+                }
+            },
+        });
+
+        // Слайдер 'Этапы'
+        const swiperMrStages = new Swiper('.swiper-mr-stages', {
+            slidesPerView: 'auto',
+            spaceBetween: 0,
+            // freeMode: true,
+
+            ...commonSwiperSettings,
+
+            pagination: {
+                el: '.swiper-mr-stages .swiper-pagination',
+                clickable: true,
+                bullets: true
+            },
+
+            navigation: {
+                nextEl: '.swiper-mr-stages .swiper-button-next',
+                prevEl: '.swiper-mr-stages .swiper-button-prev',
+            },
+
+            scrollbar: {
+                el: '.swiper-mr-stages .swiper-scrollbar',
+                draggable: true,
+            },
+
+            breakpoints: {
+                // when window width is >= 320px
+                320: {
+
+                },
+
+                // when window width is >= 640px
+                640: {
+
+                },
+
+                // when window width is >= 980px
+                980: {
+
+                },
+
+                // when window width is >= 1200px
+                1200: {
+
+                }
+            },
+        });
+    }
+
+});

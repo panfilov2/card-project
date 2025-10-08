@@ -1,0 +1,89 @@
+BX.namespace('BX.Suip.Main');
+
+BX.Suip.Main = {
+    init: function () {
+
+        //открытие странице в панели без перезагрузки страницы
+        $(document).on("click", "[data-sidepanel-service-entity-id]", function (e) {
+            var that = $(this),
+                //разрешим открытие на телефоне или нет
+                goMobile = that.attr('data-check-mobile') == 0 ? true : false,
+                url = that.attr('href');
+
+            if (url && (!BX.browser.IsMobile() || goMobile)) {
+                e.preventDefault();
+                BX.SidePanel.Instance.open(url, {
+                    allowChangeHistory: that.attr('data-diabled-history') == 1 ? false : true,
+                    cacheable: false,
+                    customLeftBoundary: that.attr('data-custom-left-boundary') ? that.attr('data-custom-left-boundary') : 65 //ширина от левого края, по умолчанию там 300
+                });
+                return false;
+            }
+        });
+
+        //переключатель проектов
+        $(document).on('click', '.suip-switch-item', function(e){
+            e.preventDefault();
+
+            //ajax
+            $.ajax({
+                type: "POST",
+                url: '/projects/filter_project_type.php',
+                data: {"project_type" : $(this).text()},
+                success: function(data) {
+                    if(window.location.pathname == '/projects/')
+                        location.reload();
+                    else
+                        window.location.href = '/projects/';
+                }
+            });
+        });
+
+        this.pageDiskFolder();
+
+
+    },
+
+    //вызывается после выбра элемента в фильтре с типом entity_selector - заново показываем весь список
+    UiFilterDialogItemOnSelect:function(eventName){
+        eventName.getData().item.getDialog().selectFirstTab();
+    },
+
+    //событиые вызывается для фильтра с типом entity_selector при нажатии на инпут и открытии диалога
+    UiFilterDialogOnShow: function(eventName){
+
+        var dialog = eventName.getTarget();
+
+        if(dialog.id == 'TENDER_procurements_filter_s1' || true)
+        {
+            //сбрасываем состояние - что бы всегда делать запрос для получения вариантов значений в диалоге
+            dialog.loadState = 'UNSENT';
+        }
+
+    },
+
+    //страница с диском
+    /**
+     * если перешли и открыли файл - то там добавляется параметр через #
+     * на php его не видно 
+     * ловим тут и делаем редирект с гет параметром
+     */
+    pageDiskFolder: function()
+    {
+        checkUrl = location.pathname.match('/workgroups/group/([0-9]+)/disk/path/');
+        if(checkUrl && checkUrl.length && location.hash)
+        {
+            $getID = location.hash.match('#hl-([0-9]+)!show');
+
+            if($getID.length && $getID[1])
+            {
+                var ulr = location.href;
+                // доабвить параметр( в этом методе вызывается BX.util.remove_url_param)
+                ulr = BX.util.add_url_param(ulr, {'hlRowID': $getID[1]});
+                location.href = ulr;
+            }
+        }
+    }
+}
+
+BX.Suip.Main.init();

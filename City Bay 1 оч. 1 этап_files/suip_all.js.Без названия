@@ -1,0 +1,24 @@
+$(function() {
+
+});
+
+function SuipSaveHitFoClick($url, $only_my_link, $isBlank)
+{
+    if(!$url)
+        return ;
+
+    BX.ajax.runAction('suip:main.api.StatHit.setCustomHit', {
+        data: {
+            'url' : $url,
+            'only_my_link': $only_my_link, //Y or N
+        },
+    });
+
+    if($isBlank)
+        window.open($url, '_blank');
+    else
+        window.open($url, '_self');
+
+    return false;
+
+}

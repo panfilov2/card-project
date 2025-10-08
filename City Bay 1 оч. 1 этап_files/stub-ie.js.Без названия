@@ -1,0 +1,89 @@
+;(function () {
+    if (BX.browser.DetectIeVersion() === -1) {
+        return;
+    }
+
+    const content = BX.create('div', {
+        props: {
+            className: 'pgk-ie-stub-content',
+        },
+        children: [
+            BX.create('div', {
+                props: {
+                    className: 'pgk-ie-stub-info'
+                },
+                children: [
+                    BX.create('p', {
+                        props:
+                            {
+                                className: 'pgk-ie-stub-text pgk-ie-stub-text--bold'
+                            },
+                        text: 'В Internet Explorer портал работает некорректно.'
+                    }),
+                    BX.create('p', {
+                        props:
+                            {
+                                className: 'pgk-ie-stub-text pgk-ie-stub-text--alternatives'
+                            },
+                        text: 'Пожалуйста, перейдите в браузер Microsoft Edge, Яндекс-Браузер или Google Chrome.'
+                    }),
+                    BX.create('p', {
+                        props:
+                            {
+                                className: 'pgk-ie-stub-text pgk-ie-stub-text--bold pgk-ie-stub-text--alternative-best'
+                            },
+                        text: 'Лучше всего Edge: портал там — стартовая страница.'
+                    })
+                ]
+            }),
+            BX.create('div', {
+                props: {
+                    className: 'pgk-ie-stub-person'
+                },
+                children: [
+                    BX.create('img', {
+                        props: {
+                            src: '/local/templates/bitrix24/images/stub-person.png '
+                        }
+                    })
+                ]
+            })
+        ]
+    });
+
+    const stubPopup = new BX.PopupWindow('ie-stub-popup', null, {
+        className: 'pgk-ie-stub-popup',
+        titleBar: {
+            content: BX.create('span', {
+                props:
+                    {
+                        className: 'pgk-ie-stub-title'
+                    },
+                text: 'Рады вас видеть!'
+            })
+        },
+        content: content,
+        autoHide: true,
+        lightShadow: true,
+        closeIcon: true,
+        closeByEsc: true,
+        overlay: {
+            backgroundColor: 'black', opacity: '90'
+        },
+        buttons: [
+            new BX.PopupWindowButton({
+                text: 'Закрыть',
+                className: 'ui-btn ui-btn-text ui-btn-caps',
+                events: {
+                    click: function () {
+                        this.popupWindow.close();
+                        document.body.style.overflowX = '';
+                    }
+                }
+            })
+        ]
+    });
+
+    document.body.style.overflowX = 'hidden';
+    stubPopup.show();
+})();

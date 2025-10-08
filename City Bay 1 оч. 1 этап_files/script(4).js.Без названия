@@ -1,0 +1,27 @@
+$(function(){
+
+    $(document).on('click', '.js-modal-telegram-bot', function(e){
+        e.preventDefault();
+
+        var modalTgBotPopup = BX.PopupWindowManager.create("modalTgBotPopup", null, {
+            autoHide: true,
+            offsetLeft: 0,
+            offsetTop: 0,
+            overlay : true,
+            draggable: {restrict:true},
+            closeByEsc: true,
+            closeIcon: { right : "12px", top : "10px"},
+            content: BX.message('JS_DATA_TG_CONTENT'),
+            events: {
+                onAfterPopupShow: function () {
+                    //modalTgBotPopup.adjustPosition({position:'top'});
+                    //modalTgBotPopup.resizeOverlay();
+                }
+            }
+        });
+
+        modalTgBotPopup.show();
+
+    });
+
+});

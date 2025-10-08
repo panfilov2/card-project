@@ -1,0 +1,762 @@
+BX.namespace('BX.KPHelpers');
+
+BX.KPHelpers.setPageContentWrapperOffset = () => {
+    const offset = BX.height(BX('panel')) + BX.height(BX('header'));
+
+    document.querySelector('.bx-layout-cont').style.paddingTop = offset + 'px';
+}
+
+BX.KPHelpers.getControlInputs = () => {
+    const settingsPopupId = '#bx-messenger-popup-settings';
+    const checkboxSelector = 'input[type=checkbox]:not(.main-ui-checkbox-input)';
+    const radioSelector = 'input[type=radio]:not(.main-ui-radio-input)';
+
+    const container = document.querySelector(settingsPopupId);
+    const checkboxFields = Array.from(container.querySelectorAll(checkboxSelector));
+    const radioFields = Array.from(container.querySelectorAll(radioSelector));
+
+    return checkboxFields.concat(radioFields);
+};
+BX.KPHelpers.transformControlInputToBaseTemplate = () => {
+    if (typeof input !== 'undefined') {
+        const $input = $(input);
+        const inputType = input.type;
+        const labelClass = 'main-ui-' + inputType + '-inner';
+        const inputClass = 'main-ui-' + inputType + '-input';
+        const spanClass = 'main-ui-' + inputType + '-mock';
+        const labelElement = '<label class="' + labelClass + '"></label>';
+        const spanElement = '<span class="' + spanClass + '"></span>';
+
+        $input.addClass(inputClass).wrap(labelElement);
+        $(spanElement).insertAfter($input);
+    }
+};
+BX.KPHelpers.getLogo = () => BX('menu-items-block').querySelector('.logo');
+BX.KPHelpers.getBrowserScrollBarWidth = () => {
+    const testDiv = document.createElement('div');
+    let scrollBarWidth;
+
+    testDiv.style.width = testDiv.style.height = '40px';
+    testDiv.style.overflow = 'scroll';
+    document.body.appendChild(testDiv);
+
+    scrollBarWidth = testDiv.offsetWidth - testDiv.clientWidth;
+
+    testDiv.parentElement.removeChild(testDiv);
+
+    return scrollBarWidth;
+};
+BX.KPHelpers.isTablet = () => {
+    const TABLET_SCREEN_SIZE = 1024;
+
+    return (document.documentElement.clientWidth || document.body.clientWidth) <= TABLET_SCREEN_SIZE;
+};
+BX.KPHelpers.isMobile = () => {
+    const MOBILE_SCREEN_SIZE = 576;
+
+    return (document.documentElement.clientWidth || document.body.clientWidth) <= MOBILE_SCREEN_SIZE;
+};
+BX.KPHelpers.disablePageScroll = () => {
+    const scrollBarWidth = BX.KPHelpers.getBrowserScrollBarWidth();
+
+    document.documentElement.style.overflow = document.body.style.overflow = 'hidden';
+    /**
+     * Если условие выполяется, то у страницы есть полоса прокрутки.
+     * Так как мы отключаем скролл страницы, то полоса прокрутки исчезнет
+     * и содержимое страницы сдвинется вправо. Чтобы этого не произошло,
+     * добавляем элементу `body` паддинг справа, равный ширине полосы прокрутки
+     */
+    if (scrollBarWidth > 0) {
+        document.body.style.paddingRight = scrollBarWidth + 'px'
+    }
+};
+BX.KPHelpers.enablePageScroll = () => {
+    document.body.style.paddingRight = '';
+    document.documentElement.style.overflow = document.body.style.overflow = '';
+};
+BX.KPHelpers.updateSearchResultPosition = () => {
+    if (BX.KPControllers.SearchTitle == null || BX.KPControllers.SearchTitle.RESULT == null) {
+        return false;
+    }
+
+    let ieTop = 0;
+    let ieLeft = 0;
+    let ieWidth = 0;
+    let pos = BX.pos(BX.KPControllers.SearchTitle.CONTAINER);
+
+    if (BX.browser.IsIE()) {
+        ieTop = 0;
+        ieLeft = 1;
+        ieWidth = -1;
+
+        if (/MSIE 7/i.test(navigator.userAgent)) {
+            ieTop = -1;
+            ieLeft = -1;
+            ieWidth = -2;
+        }
+    }
+
+    pos.width = pos.right - pos.left;
+
+    BX.KPControllers.SearchTitle.RESULT.style.top = pos.bottom + ieTop - 1 + 'px';
+    BX.KPControllers.SearchTitle.RESULT.style.left = pos.left + ieLeft + 'px';
+    BX.KPControllers.SearchTitle.RESULT.style.width = (pos.width + ieWidth) + 'px';
+}
+
+BX.ready(function () {
+    BX.KPHelpers.setPageContentWrapperOffset();
+    let updateContentWrapperOffset = BX.debounce(function () {
+        BX.KPHelpers.setPageContentWrapperOffset()
+    }, 200);
+
+    window.addEventListener('resize', updateContentWrapperOffset);
+
+    let rule = BX.SidePanel.Instance.getUrlRule('/company/personal/user/1/');
+    let index = BX.SidePanel.Instance.anchorRules.indexOf(rule);
+    if (index > -1) BX.SidePanel.Instance.anchorRules.splice(index, 1);
+
+    class KPMobileMenuController {
+        constructor() {
+            this._setDOMElems();
+            this._bindMethods();
+            this._bindEvents();
+        }
+
+        destructor () {
+            this._unbindEvents();
+        }
+
+        show () {
+            BX.KPHelpers.disablePageScroll();
+
+            if(this.$menuWrapper)
+                BX.show(this.$menuWrapper);
+            if(this.$menuOverlay)
+                BX.show(this.$menuOverlay);
+
+            this._nextTick(() => {
+                BX.addClass(this.$menuWrapper, 'is-active');
+            });
+        }
+
+        hide () {
+            let onMenuTransitionEnd = () => {
+                this.$menuWrapper.style.display = this.$menuOverlay.style.display = '';
+
+                BX.unbind(this.$menu, 'transitionend', onMenuTransitionEnd);
+            };
+
+            BX.KPHelpers.enablePageScroll();
+
+            BX.bind(this.$menu, 'transitionend', onMenuTransitionEnd);
+            BX.removeClass(this.$menuWrapper, 'is-active');
+        }
+
+        _nextTick (fn) {
+            const raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
+
+            raf(() => {
+                raf(() => {
+                    fn();
+                });
+            });
+        }
+
+        _setDOMElems () {
+            this.$menuWrapper = BX('js-menu-items-block-wrapper');
+            this.$menuOverlay = BX('js-menu-items-block-overlay');
+            this.$menu = BX('menu-items-block');
+            this.$mobileMenuButtonShow = BX('js-mobile-menu-show-btn');
+            this.$mobileMenuButtonClose = BX('js-mobile-menu-close-btn');
+        }
+
+        _bindMethods () {
+            this.show = this.show.bind(this);
+            this.hide = this.hide.bind(this);
+        }
+
+        _bindEvents () {
+            BX.bind(this.$mobileMenuButtonShow, 'click', this.show);
+            BX.bind(this.$mobileMenuButtonClose, 'click', this.hide);
+        }
+
+        _unbindEvents () {
+            BX.unbind(this.$mobileMenuButtonShow, 'click', this.show);
+            BX.unbind(this.$mobileMenuButtonClose, 'click', this.hide);
+        }
+    }
+
+    class KPMobileSearchController {
+        constructor() {
+            this.isModalCreated = false;
+
+            this._setDOMElems();
+            this._bindMethods();
+            this._bindEvents();
+        }
+
+        destructor () {
+            this._unbindEvents();
+        }
+
+        show () {
+            BX.KPHelpers.disablePageScroll();
+
+            if (!this.isModalCreated) {
+                this._createModal();
+            }
+
+            this._modal.setContent(this.$search);
+
+            this.$hideButton = BX('js-close-mobile-search-btn');
+
+            BX.bind(this.$hideButton, 'click', this.hide);
+            BX.show(this.$search);
+
+            this._modal.show();
+        }
+
+        hide () {
+            BX.KPHelpers.enablePageScroll();
+
+            this.$search.style.display = '';
+
+            BX.unbind(this.$hideButton, 'click', this.hide);
+            BX.prepend(this.$search, BX('js-header-content'));
+
+            this.$hideButton = null;
+
+            this._modal.setContent('');
+            this._modal.close();
+        }
+
+        _createModal () {
+            this._modal = new BX.PopupWindow('mobile-search', null, {
+                className: 'mobile-search-modal',
+                offsetTop: 0,
+                offsetLeft: 0
+            });
+
+            this.isModalCreated = true;
+        }
+
+        _setDOMElems () {
+            this.$search = BX('js-header-search');
+            this.$showButton = BX('js-show-mobile-search-modal-btn');
+        }
+
+        _bindMethods () {
+            this.show = this.show.bind(this);
+            this.hide = this.hide.bind(this);
+        }
+
+        _bindEvents () {
+            BX.bind(this.$showButton, 'click', this.show);
+        }
+
+        _unbindEvents () {
+            BX.unbind(this.$showButton, 'click', this.show);
+
+            if (this.$hideButton) {
+                BX.unbind(this.$hideButton, 'click', this.hide);
+            }
+        }
+    }
+
+    class KPMobileMessengerController {
+        constructor() {
+            this._setDOMElems();
+            this._bindMethods();
+            this._bindEvents();
+            this._onChatPanelOpen();
+        }
+
+        destructor () {
+            this._unbindEvents();
+        }
+
+        updateMessageCounter (counter, type) {
+            if (type !== 'MESSAGE') {
+                return false;
+            }
+
+            this.$messagesCounter.innerHTML = this._getCounterHTML(counter);
+
+            BX[counter > 0 ? 'addClass' : 'removeClass'](this.$showMessagesButton, 'has-messages');
+        }
+
+        updateNotifyCounter (counter) {
+            this.$notificationsCounter.innerHTML = this._getCounterHTML(counter);
+
+            BX[counter > 0 ? 'addClass' : 'removeClass'](this.$showNotificationsButton, 'has-messages');
+        }
+
+        showMessages () {
+            if (typeof(BXIM) == 'undefined') {
+                return false;
+            }
+
+            BX.KPHelpers.disablePageScroll();
+            BX.addCustomEvent('SidePanel.Slider:onClose', this._onChatPanelClose);
+            BXIM.openMessenger(0, 'im');
+        }
+
+        showNotifications () {
+            if (typeof(BXIM) == 'undefined') {
+                return false;
+            }
+
+            BX.KPHelpers.disablePageScroll();
+            BX.addCustomEvent('SidePanel.Slider:onClose', this._onChatPanelClose);
+            BXIM.openMessenger(0, 'im');
+            setTimeout(function () {
+                BXIM.openNotify();
+            }, 200);
+        }
+
+        _getCounterHTML (counter) {
+            if (counter <= 0) {
+                return '';
+            }
+
+            return `<div class="mobile-header-btn-count-inner">${counter > 99 ? '99+' : counter}</div>`;
+        }
+
+        _onChatPanelClose (event) {
+            if (!event.slider.url.startsWith('im:slider:')) {
+                return false;
+            }
+
+            BX.KPHelpers.enablePageScroll();
+            BX.removeCustomEvent('SidePanel.Slider:onClose', this._onChatPanelClose);
+        }
+
+        openContactsMenu (callbackAfterOpen, autoClose = true) {
+            clearTimeout(BXIM.messenger.popupContactListWrapAnimation);
+            BXIM.messenger.popupContactListWrapAnimation = setTimeout(BX.delegate(function(){
+                BX.addClass(BXIM.messenger.popupContactListWrap, 'bx-messenger-box-contact-hover');
+                clearTimeout(BXIM.messenger.popupContactListWrapAnimation);
+                BXIM.messenger.popupContactListWrapAnimation = setTimeout(BX.delegate(function(){
+                    BX.removeClass(BXIM.messenger.popupContactListWrap, 'bx-messenger-box-contact-normal');
+                    if (typeof callbackAfterOpen === 'function')
+                    {
+                        callbackAfterOpen.call();
+                    }
+                }, this), 100);
+
+                if (autoClose) {
+                    BXIM.messenger.popupContactListWrapAnimation = setTimeout(BX.delegate(function(){
+                        BX.removeClass(BXIM.messenger.popupContactListWrap, 'bx-messenger-box-contact-hover');
+                        BX.addClass(BXIM.messenger.popupContactListWrap, 'bx-messenger-box-contact-normal');
+                    }, this), 1500);
+                }
+            }, this), 200);
+
+            BXIM.messenger.popupContactListHovered = true;
+        }
+
+        _onChatPanelOpen () {
+            BX.addCustomEvent("SidePanel.Slider:onOpenComplete", function (event) {
+                if (event.slider.url.includes('im:slider') && (BX.KPHelpers.isMobile() || BX.KPHelpers.isTablet())) {
+                    setTimeout(() => {
+                        BX.unbindAll(BXIM.messenger.popupContactListWrap, "mouseover");
+                        BX.unbindAll(BXIM.messenger.popupContactListWrap, "mouseout");
+
+                        BX.bind(BXIM.messenger.popupContactListWrap, "touchmove", BX.delegate(function(e) {
+                            BX.PgkMobileControllers.Messenger.openContactsMenu();
+                        }, this));
+
+                        document.getElementsByClassName('bx-messenger-textarea')[0].addEventListener('touchstart', function (e) {
+                            document.getElementsByClassName('bx-messenger-textarea-input')[0].focus();
+                        });
+
+                        document.getElementsByClassName('bx-messenger-cl-search-wrap')[0].addEventListener('touchstart', BX.delegate(function (e) {
+                            BX.PgkMobileControllers.Messenger.openContactsMenu(function () {
+                                document.querySelector('.bx-messenger-cl-search-wrap > input').focus();
+                            }, false);
+                        }, this));
+                    }, 1500);
+                }
+            });
+        }
+
+        _setDOMElems () {
+            this.$showMessagesButton = BX('js-show-mobile-messenger-messages-btn');
+            this.$showNotificationsButton = BX('js-show-mobile-messenger-notify-btn');
+            this.$messagesCounter = BX.findChildByClassName(this.$showMessagesButton, 'mobile-header-btn-count');
+            this.$notificationsCounter = BX.findChildByClassName(this.$showNotificationsButton, 'mobile-header-btn-count');
+        }
+
+        _bindMethods () {
+            this.showMessages = this.showMessages.bind(this);
+            this.showNotifications = this.showNotifications.bind(this);
+            this.openContactsMenu = this.openContactsMenu.bind(this);
+            this.updateMessageCounter = this.updateMessageCounter.bind(this);
+            this.updateNotifyCounter = this.updateNotifyCounter.bind(this);
+            this._onChatPanelClose = this._onChatPanelClose.bind(this);
+            this._onChatPanelOpen = this._onChatPanelOpen.bind(this);
+        }
+
+        _bindEvents () {
+            BX.bind(this.$showMessagesButton, 'click', this.showMessages);
+            BX.bind(this.$showNotificationsButton, 'click', this.showNotifications);
+            BX.addCustomEvent('onImUpdateCounterNotify', this.updateNotifyCounter);
+            BX.addCustomEvent('onImUpdateCounterMessage', this.updateMessageCounter);
+        }
+
+        _unbindEvents () {
+            BX.unbind(this.$showMessagesButton, 'click', this.showMessages);
+            BX.unbind(this.$showNotificationsButton, 'click', this.showNotifications);
+            BX.removeCustomEvent('onImUpdateCounterNotify', this.updateNotifyCounter);
+            BX.removeCustomEvent('onImUpdateCounterMessage', this.updateMessageCounter);
+        }
+    }
+
+    class KPFilterTransformer {
+        static FILTER = {
+            WRAPPER: '.main-ui-filter-wrapper',
+            SELECT_OPTION: '.main-ui-filter-sidebar-item',
+            SELECT_OPTION_VISIBLE: '.main-ui-filter-sidebar-item:not(.main-ui-hide, .main-ui-filter-new-filter)',
+            SIDEBAR: '.main-ui-filter-sidebar',
+            FIELDS_WRAPPER: '.main-ui-filter-field-container',
+            BOTTOM_CONTROLS: '.main-ui-filter-bottom-controls',
+            ADD_FILTER_BTN: '.main-ui-filter-add-container',
+            ITEM_TEXT: '.main-ui-filter-sidebar-item-text',
+            FIELD_BUTTON_INNER: '.main-ui-filter-field-button-inner',
+            PRESET_LIST: '.main-ui-filter-sidebar-item-container',
+            PRESET_CURRENT: '.main-ui-filter-current-item',
+            SAVE_FOR_ALL_CHECKBOX: '.main-ui-filter-save-for-all'
+        }
+
+        constructor() {
+            this.mode = 'desktop';
+            this.select = null;
+
+            this.filterWrapper = document.querySelector(KPFilterTransformer.FILTER.WRAPPER);
+            this.filterPopup = this.filterWrapper.closest('.popup-window');
+            this.filterSidebar = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.SIDEBAR);
+            this.filterFields = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.FIELDS_WRAPPER);
+            this.filterControls = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.BOTTOM_CONTROLS);
+            this.filterItemList = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.PRESET_LIST);
+            this.filterAddNewBtn = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.ADD_FILTER_BTN);
+            this.filterSaveForAll = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.SAVE_FOR_ALL_CHECKBOX);
+            this.filterFieldBtnInner = this.filterWrapper.querySelector(KPFilterTransformer.FILTER.FIELD_BUTTON_INNER);
+            this.filterPresetsVisible = this.filterWrapper.querySelectorAll(KPFilterTransformer.FILTER.SELECT_OPTION_VISIBLE);
+
+            this._bindMethods();
+            this._bindEvents();
+
+            this.transform();
+        }
+
+        destructor() {
+            this._unbindEvents();
+        }
+
+        transform() {
+            if (this._isMobileMode() && this.mode === 'desktop') {
+                this.createSaveFilterSelect();
+                this.moveAddFilterBtn('top');
+                this.moveSaveForAllCheckbox('top');
+
+                $(this.filterSaveForAll).addClass('main-ui-hide')
+                $(this.filterPopup).addClass('main-ui-filter-popup');
+
+                this.mode = 'mobile';
+            } else if (this._isDesktopMode() && this.mode === 'mobile') {
+                this.destroySaveFilterSelect();
+                this.moveAddFilterBtn('bottom');
+                this.moveSaveForAllCheckbox('bottom');
+
+                $(this.filterSaveForAll).removeClass('main-ui-hide')
+                $(this.filterPopup).removeClass('main-ui-filter-popup');
+
+                this.mode = 'desktop';
+            }
+        }
+
+        hide() {
+            const filterPopupId = $(this.filterPopup).attr('id');
+
+            BX.PopupWindowManager.getPopupById(filterPopupId).close();
+        }
+
+        createSaveFilterOptionsData() {
+            return Array
+                .from(this.filterWrapper.querySelectorAll(KPFilterTransformer.FILTER.SELECT_OPTION_VISIBLE))
+                .map(filterItem => ({
+                    id: filterItem.dataset.id,
+                    text: filterItem.querySelector(KPFilterTransformer.FILTER.ITEM_TEXT).textContent,
+                    selected: filterItem.classList.contains(KPFilterTransformer.FILTER.PRESET_CURRENT.slice(1))
+                }));
+        }
+
+        createSaveFilterSelect() {
+            const data = this.createSaveFilterOptionsData();
+            const SELECT_THEME = 'pgk-select';
+            const selectOptions = {
+                width: '100%',
+                data,
+                theme: SELECT_THEME,
+                minimumResultsForSearch: -1
+            };
+
+            this.select = $('<select></select>');
+            this.filterItemList.prepend(this.select[0]);
+
+            $(this.select)
+                .select2(selectOptions)
+                .on('select2:select', this.onPresetClick);
+        }
+
+        destroySaveFilterSelect() {
+            $(this.select)
+                .off('select2:select', this.onPresetClick)
+                .select2('destroy')
+                .remove();
+            this.select = null;
+        }
+
+        /**
+         * В мобильной версии сайта список сохранённых фильтров представлен в виде выпадающего списка.
+         * Фильтры для десктопной версии скрыты. Чтобы не терять логику при выборе пресета фильтра из выпадающего
+         * списка, программно инициируем клик по соответствующему пресету в десктопной версии
+         * @param event
+         */
+        onPresetClick(event) {
+            const checkedFilterPreset = document.querySelector(`${KPFilterTransformer.FILTER.SELECT_OPTION_VISIBLE}[data-id=${event.params.data.id}]`)
+
+            checkedFilterPreset.click();
+            this.hide();
+        }
+
+        /**
+         * Перемещает кнопку "Сохранить фильтр" в нужное место в зависимости от размеров экрана.
+         * В десктопной версии она находится в нижнем блоке фильтра, а в мобильной
+         * версии в шапке фильтра.
+         * @param location - [top | bottom]
+         */
+        moveAddFilterBtn(location) {
+            if (location === 'top') {
+                this.filterSidebar.appendChild(this.filterAddNewBtn);
+            } else {
+                this.filterControls.prepend(this.filterAddNewBtn);
+            }
+        }
+
+        /**
+         * Перемещает чекбокс "Для всех" в нужное место в зависимости от размеров экрана.
+         * В десктопной версии он находится в нижнем блоке фильтра, а в мобильной
+         * версии в шапке фильтра.
+         * @param location - [top | bottom]
+         */
+        moveSaveForAllCheckbox(location) {
+            if (this.filterSaveForAll){
+                if (location === 'top') {
+                    this.filterSidebar.appendChild(this.filterSaveForAll);
+                } else {
+                    this.filterFieldBtnInner.prepend(this.filterSaveForAll);
+                }
+            }
+        }
+
+        _isMobileMode() {
+            return BX.KPHelpers.isTablet() || BX.KPHelpers.isMobile();
+        }
+
+        _isDesktopMode() {
+            return !this._isMobileMode();
+        }
+
+        _onPageResize() {
+            this.transform();
+        }
+
+        _onEnableEditMode() {
+            BX.removeClass(this.filterSaveForAll, 'main-ui-hide');
+            this.destroySaveFilterSelect();
+            this.filterPresetsVisible.forEach(el => BX.show(el));
+        }
+
+        _bindMethods() {
+            this.onPresetClick = this.onPresetClick.bind(this);
+            this._onPageResize = BX.debounce(this._onPageResize.bind(this), 200);
+            this._onEnableEditMode = this._onEnableEditMode.bind(this);
+        }
+
+        _bindEvents() {
+            window.addEventListener('resize', this._onPageResize);
+            BX.addCustomEvent('BX.Main.Filter:onEnableEdit', this._onEnableEditMode);
+        }
+
+        _unbindEvents() {
+            window.removeEventListener('resize', this._onPageResize);
+            BX.removeCustomEvent('BX.Main.Filter:onEnableEdit', this._onEnableEditMode);
+        }
+    }
+
+    class KPSelectTransformer {
+        constructor() {
+            this.selector = '.js-select2';
+            this.defaultSettings = {
+                width: `192px`,
+                theme: 'kp-select',
+                minimumResultsForSearch: -1,
+                containerCssClass: 'select-sm'
+            };
+
+            this._bindMethods();
+
+            $(this.selector).each(this.initSelect2Item);
+        }
+
+        destructor() {
+            this._unbindEvents();
+        }
+
+        initSelect2Item(selectIndex) {
+            const select = $(this.selector)[selectIndex];
+            const customSelectOptions = {
+                width: $(select).attr('data-select-width'),
+                containerCssClass: $(select).attr('data-select-container-css-class'),
+                dropdownCssClass: $(select).attr('data-select-dropdown-css-class')
+            };
+            const resultOptions = $.extend(this.defaultSettings, customSelectOptions);
+
+            $(select).select2(resultOptions);
+        }
+
+        _bindMethods() {
+            this.initSelect2Item = this.initSelect2Item.bind(this);
+        }
+
+        _unbindEvents() {
+
+        }
+    }
+
+    class KPTextareaAutoResizer {
+        constructor() {
+            this.selector = '.js-is-auto-resizable';
+            this.textarea = $(this.selector);
+
+            if (this.textarea.length === 0) {
+                return;
+            }
+
+            this._bindEvents();
+        }
+
+        destructor() {
+            this._unbindEvents();
+        }
+
+        increaseTextareaHeight() {
+            if (this.scrollTop > 0) {
+                $(this).stop().animate({
+                    height: this.scrollHeight + 'px'
+                }, 300);
+            }
+        }
+
+        _bindEvents() {
+            this.textarea.on('keyup', this.increaseTextareaHeight);
+        }
+
+        _unbindEvents() {
+            this.textarea.off('keyup', this.increaseTextareaHeight);
+        }
+    }
+
+    BX.namespace('BX.KPControllers');
+
+    BX.KPControllers.KPSelectTransformer = new KPSelectTransformer();
+    BX.KPControllers.KPTextareaAutoResizer = new KPTextareaAutoResizer();
+    BX.KPControllers.Menu = new KPMobileMenuController();
+    BX.KPControllers.Search = new KPMobileSearchController();
+    BX.KPControllers.Messenger = new KPMobileMessengerController();
+
+    let updateSearchResultPosition = BX.debounce(function () {
+        if (BX.KPHelpers.isTablet()) {
+            return false;
+        }
+
+        BX.KPHelpers.updateSearchResultPosition();
+    }, 200);
+
+    window.addEventListener('resize', updateSearchResultPosition);
+
+    BX.addCustomEvent('onAjaxSuccess', function (event, params) {
+        if (params.url && (params.url.includes('SETTINGS_SIMPLE_NOTIFY_LOAD') || params.url.includes('SETTINGS_NOTIFY_LOAD'))) {
+            BX.KPHelpers.getControlInputs().forEach(BX.KPHelpers.transformControlInputToBaseTemplate);
+        }
+    });
+
+    BX.addCustomEvent('BX.Bitrix24.LeftMenuClass:onMenuToggle', function (flag, menu) {
+        let isCollapsed = BX.hasClass(menu.mainTable, 'menu-collapsed-mode');
+
+        document.body.style.overflowX = 'hidden';
+
+        if (!isCollapsed) {
+            BX.addClass(BX.KPHelpers.getLogo(), 'logo--translated');
+        }
+    });
+
+    BX.addCustomEvent("BX.Bitrix24.LeftMenuClass:onMenuToggleAnimationComplete", function () {
+        document.body.style.overflowX = '';
+
+        BX.removeClass(BX.KPHelpers.getLogo(), 'logo--translated');
+    });
+
+    BX.addCustomEvent("onPopupFirstShow", function (popup) {
+        if (popup.contentContainer.querySelector('.main-ui-filter-wrapper') == null) {
+            return;
+        }
+
+        BX.KPControllers.KPFilterTransformer = new KPFilterTransformer();
+    });
+
+    BX.addCustomEvent("onTopPanelCollapse", function () {
+        updateContentWrapperOffset();
+    });
+
+    window.addEventListener('beforeunload', () => {
+        if (BX.KPControllers.KPFilterTransformer) {
+            BX.KPControllers.KPFilterTransformer.destructor();
+        }
+
+        if (BX.KPControllers.KPSelectTransformer) {
+            BX.KPControllers.KPSelectTransformer.destructor();
+        }
+
+        if (BX.KPControllers.KPTextareaAutoResizer) {
+            BX.KPControllers.KPTextareaAutoResizer.destructor();
+        }
+
+        window.removeEventListener('resize', updateSearchResultPosition);
+        window.removeEventListener('resize', updateContentWrapperOffset);
+    });
+
+    // обработчик переключения типа проекта
+    $('#project_type').on('click', function(){
+        var project_type;
+        if($(this).is(':checked')) {
+            project_type = $('.checkbox-on-switch').attr('data-label-on');
+        } else {
+            project_type = $('.checkbox-on-switch').attr('data-label-off');
+        }
+
+        //ajax
+        $.ajax({
+            type: "POST",
+            url: '/projects/filter_project_type.php',
+            data: {"project_type" : project_type},
+            success: function(data) {
+                if(window.location.pathname == '/projects/')
+                    location.reload();
+                else
+                    window.location.href = '/projects/';
+            }
+        });
+    });
+});
