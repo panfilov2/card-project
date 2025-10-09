@@ -604,10 +604,6 @@
     .mr-team-grid .mr-teammate-contacts:before {
         display: none;
     }
-
-    .mr-stages-content .mr-stages-slider .swiper-slide {
-        width: calc((100% - 80px) / 1.5);
-    }
 }
 
 @media (max-width: 833px) {
@@ -669,5 +665,9 @@
 
     .mr-about-parameters .mr-parameters {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mr-stages-content .mr-stages-slider .swiper-slide {
+        width: calc((100% - 80px) / 1.5);
     }
 }
