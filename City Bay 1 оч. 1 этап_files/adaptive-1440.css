@@ -407,7 +407,7 @@
 
     .mr-teammate-data .mr-teammate-position {
         font-size: 12px;
-        line-height: 10.7px;
+        line-height: 14.4px;
     }
 
     .mr-teammate-contacts .mr-teammate-contact {
@@ -555,6 +555,10 @@
         display: flex;
     }
 
+    .mr-team .mr-team-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .mr-team-grid .mr-teammate {
         flex-direction: row;
     }
@@ -566,7 +570,8 @@
     }
 
     .mr-teammate .mr-teammate-contacts {
-        gap: 8px
+        gap: 8px;
+        padding: 12px 24px 12px 16px;
     }
 
     .mr-team-grid .mr-teammate-contacts:before {
@@ -618,6 +623,11 @@
         gap: 4px
     }
 
+    .mr-grid-container {
+        flex-direction: column;
+        gap: 16px
+    }
+
     .mr-teammate .mr-teammate-action {
         min-width: 32px;
         right: 12px;
@@ -627,14 +637,36 @@
         width: 32px;
         height: 32px;
     }
+}
 
-    .mr-teammate.js-teammate.is-opened .mr-teammate-contacts {
-        padding-right: 22px;
+@media only screen and (min-width: 835px) and (max-width: 1023px) {
+    .mr-team .mr-team-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .mr-grid-container {
-        flex-direction: column;
-        gap: 16px
+    .mr-teammate .mr-teammate-contacts {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .mr-team-grid .mr-teammate.is-opened .mr-teammate-contact:last-child::before {
+        display: block;
+    }
+
+    .mr-teammate-contacts .mr-teammate-contact:last-child {
+        padding-left: 12px;
+    }
+
+    .mr-teammate .mr-teammate-card {
+        flex: 1;
+        padding-right: 30px;
+    }
+
+    .mr-teammate.js-teammate.is-opened .mr-teammate-contacts {
+        padding-left: 16px;
+        padding-right: 40px;
+        justify-content: flex-start;
+        gap: 12px
     }
 }
 
@@ -680,7 +712,7 @@
     }
 
     .mr-teammate-contacts .mr-teammate-contact:last-child {
-        padding-left: 12px;
+        padding-left: 24px;
     }
 
     .mr-teammate .mr-teammate-card {
@@ -690,10 +722,10 @@
     }
 
     .mr-teammate.js-teammate.is-opened .mr-teammate-contacts {
-        padding-left: 33px;
+        padding-left: 54px;
         padding-right: 40px;
         justify-content: flex-start;
-        gap: 12px
+        gap: 24px
     }
 
     .mr-grid .mr-grid-container {
@@ -719,9 +751,19 @@
 }
 
 
-@media (max-width: 1038px) {
-    .mr-teammate .mr-teammate-contacts {
-        display: flex;
+@media (max-width: 833px) {
+    .mr-teammate .mr-teammate-action {
+        min-width: 32px;
+        right: 12px;
+    }
+
+    .mr-teammate-action .mr-teammate-action-visual {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mr-teammate.js-teammate.is-opened .mr-teammate-contacts {
+        padding-right: 22px;
     }
 
     .mr-team-grid .mr-teammate {
@@ -731,9 +773,15 @@
     .mr-team-grid .mr-teammate-contacts:before {
         display: none;
     }
-}
 
-@media (max-width: 833px) {
+    .mr-teammate .mr-teammate-contacts {
+        display: flex;
+    }
+
+    .mr-teammate .mr-teammate-action {
+        display: none;
+    }
+
     .mr-team .mr-team-grid {
         display: flex;
         flex-direction: column;
