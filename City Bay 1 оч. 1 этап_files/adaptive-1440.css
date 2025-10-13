@@ -6,6 +6,11 @@
     border-radius: 12px;
 }
 
+.mr-grid-container {
+    display: flex;
+    gap: 20px;
+}
+
 .mr-photo .swiper-mr-photo .swiper-button-prev {
     left: unset;
     right: 120px;
@@ -216,7 +221,7 @@
     }
 
     .mr-col.mr-col--2 {
-        width: 44.5%;
+        width: 47%;
         flex-basis: auto;
     }
 
@@ -236,7 +241,8 @@
 
 
     .mr-finance-groups .mr-finance-group {
-        gap: 12px
+        gap: 12px;
+        overflow: hidden;
     }
 
     .mr-finance-group-content .mr-finance-stats {
@@ -555,7 +561,8 @@
 
     .mr-teammate .mr-teammate-card {
         flex: 1;
-        padding: 12px 11px 12px 12px;
+        padding: 12px 41px 12px 12px;
+        gap: 12px;
     }
 
     .mr-teammate .mr-teammate-contacts {
@@ -591,12 +598,132 @@
         padding: 13px;
     }
 
-    .mr-teammate .mr-teammate-contacts {
+    .swiper-slide .mr-stage-title {
+        font-size: 12px;
+    }
+
+    .mr-teammate .mr-teammate-action {
         display: flex;
+    }
+
+    .mr-team .mr-team-grid {
+        grid-template-columns: repeat(3, 1fr)
+    }
+
+    .mr-teammate-data .mr-teammate-name {
+        font-size: 14px;
+    }
+
+    .mr-teammate-card .mr-teammate-data {
+        gap: 4px
+    }
+
+    .mr-teammate .mr-teammate-action {
+        min-width: 32px;
+        right: 12px;
+    }
+
+    .mr-teammate-action .mr-teammate-action-visual {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mr-teammate.js-teammate.is-opened .mr-teammate-contacts {
+        padding-right: 22px;
+    }
+
+    .mr-grid-container {
+        flex-direction: column;
+        gap: 16px
     }
 }
 
+@media only screen and (min-width: 1135px) and (max-width: 1439px) and (orientation: landscape) {
+    .mr-grid .mr-col--3 {
+        display: flex;
+        width: 396px;
+        flex: none
+    }
+
+    .mr-preview-heading .mr-preview-title {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+    
+    .mr-parameter-heading .mr-parameter-title {
+        font-size: 16px;
+    }
+
+    .mr-aspect-content .mr-aspect-desc {
+        font-size: 18px;
+    }
+
+    .swiper-slide .mr-stage-title {
+        font-size: 14px;
+    }
+
+    .mr-aspect-heading .mr-aspect-title {
+        font-size: 16px;
+    }
+
+    .mr-parameter-content .mr-parameter-value {
+        font-size: 18px;
+    }
+
+    .mr-teammate .mr-teammate-contacts {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .mr-team-grid .mr-teammate.is-opened .mr-teammate-contact:last-child::before {
+        display: block;
+    }
+
+    .mr-teammate-contacts .mr-teammate-contact:last-child {
+        padding-left: 12px;
+    }
+
+    .mr-teammate .mr-teammate-card {
+        flex: 1;
+        max-width: fit-content;
+        padding-right: 30px;
+    }
+
+    .mr-teammate.js-teammate.is-opened .mr-teammate-contacts {
+        padding-left: 33px;
+        padding-right: 40px;
+        justify-content: flex-start;
+        gap: 12px
+    }
+
+    .mr-grid .mr-grid-container {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .mr-data .mr-grid {
+        flex-direction: row;
+    }
+
+    .mr-section.mr-section--milestones {
+        display: block;
+    }
+
+    .mr-col--2 .mr-section--milestones {
+        display: none;
+    }
+
+    .mr-team .mr-team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
 @media (max-width: 1038px) {
+    .mr-teammate .mr-teammate-contacts {
+        display: flex;
+    }
+
     .mr-team-grid .mr-teammate {
         flex-direction: column;
     }
