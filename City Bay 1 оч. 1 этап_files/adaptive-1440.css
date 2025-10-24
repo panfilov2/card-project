@@ -11,6 +11,10 @@
     gap: 20px;
 }
 
+.mr-col.mr-col--3 {
+    flex: none;
+}
+
 .mr-photo .swiper-mr-photo .swiper-button-prev {
     left: unset;
     right: 120px;
@@ -193,10 +197,6 @@
 
     .mr-wrapper .mr-data {
         padding: 14px 20px 98px 20px;
-    }
-
-    .mr-navigation-box .mr-tabs-slider {
-        max-width: 100%;
     }
 
     .mr-finance-groups .mr-finance-group {
@@ -505,7 +505,9 @@
 }
 
 @media (max-width: 1919px) {
-
+    .mr-navigation-box .mr-tabs-slider {
+        max-width: 100%;
+    }
     .mr-about-aspects .mr-aspects {
         grid-template-columns: repeat(2, 1fr);
         row-gap: 0;
