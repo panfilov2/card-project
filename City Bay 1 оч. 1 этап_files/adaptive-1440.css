@@ -90,7 +90,7 @@
 }
 
 .mr-widget.mr-widget--finance {
-    padding: 0 2px;
+    padding: 0;
 }
 
 .mr-team__show-more {
@@ -119,7 +119,6 @@
 }
 
 .mr-finance-stat-content .mr-finance-stat-desc {
-    font-size: 10px;
     text-wrap: nowrap;
 }
 
@@ -129,16 +128,12 @@
     justify-content: space-between;
 }
 
-.mr-finance-group-heading .mr-finance-group-title {
-    font-size: 16px;
-}
-
-.mr-finance-stat-heading .mr-finance-stat-title {
-    font-size: 12px;
-}
-
 .mr-finance-groups .mr-finance-group {
-    padding: 20px 19px;
+    padding: 20px 18px;
+}
+
+.mr-finance-group-heading .mr-finance-group-title {
+    text-wrap: nowrap;
 }
 
 .mr-finance-groups .mr-finance-group:not(:last-child) {
@@ -163,9 +158,60 @@
     display: none;
 }
 
+.mr-aspect-content .mr-aspect-desc {
+    font-family: 'Suisse Intl';
+    font-weight: 400;
+}
+
+.mr-participants-action-content {
+    font-family: 'Suisse Intl';
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.main-buttons-item-link .main-buttons-item-text-title {
+    font-family: 'Suisse Intl';
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.mr-tabs-slider .mr-tab {
+    font-family: 'Suisse Intl';
+    font-weight: 400;
+}
+
+.mr-tabs .mr-tab {
+    font-family: 'Suisse Intl';
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.mr-button .mr-button-content {
+    font-family: 'Suisse Intl';
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.mr-grid-container .mr-col--2 {
+    flex-basis: 41.2%;
+}
+
+.mr-finance-group .mr-finance-group-heading {
+    gap: 4px
+}
+
+.mr-teammate-contacts .mr-teammate-contact a {
+    font-family: 'Suisse Intl';
+    font-weight: 400;
+}
+
 @media (min-width: 2560px) {
     .mr-finance-group-heading .mr-finance-group-title {
         font-size: 20px;
+    }
+
+    .mr-finance-group .mr-finance-group-heading {
+        gap: 8px
     }
 
     .mr-team .mr-team-grid {
@@ -221,7 +267,7 @@
     }
 
     .mr-col.mr-col--2 {
-        width: 47%;
+        width: 47.5%;
         flex-basis: auto;
     }
 
@@ -505,6 +551,30 @@
 }
 
 @media (max-width: 1919px) {
+    .mr-milestone-table-caption .mr-milestone-title {
+        font-size: 12px;
+        height: 20px;
+        min-height: 20px;
+        padding: 4px 6px;
+        flex: none
+    }
+
+    .mr-milestone-table-td .mr-milestone-fact {
+        font-size: 12px;
+    }
+
+    .mr-participants-action-content {
+        font-size: 12px;
+    }
+
+    .mr-finance-stat-heading .mr-finance-stat-title {
+        font-size: 12px;
+    }
+
+    .mr-finance-stat-content .mr-finance-stat-desc {
+        font-size: 10px;
+    }
+    
     .mr-navigation-box .mr-tabs-slider {
         max-width: 100%;
     }
@@ -557,6 +627,26 @@
         display: flex;
     }
 
+    .mr-parameter-content .mr-parameter-value {
+        font-size: 18px;
+    }
+
+    .mr-parameter-content .mr-parameter-desc {
+        font-size: 16px;
+    }
+
+    .mr-parameter-heading .mr-parameter-title {
+        font-size: 16px;
+    }
+
+    .mr-aspect-content .mr-aspect-desc {
+        font-size: 16px;
+    }
+
+    .mr-participants-action-content {
+        font-size: 16px;
+    }
+
     .mr-team .mr-team-grid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -606,7 +696,21 @@
     }
 
     .swiper-slide .mr-stage-title {
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+    .mr-milestone-table-td .mr-milestone-fact {
+        font-size: 16px;
+    }
+
+    .mr-milestone-table-caption .mr-milestone-title {
+        font-size: 16px;
+        padding: 6px 8px;
+        height: 28px;
+    }
+
+    .mr-finance-group-heading .mr-finance-group-title {
+        font-size: 16px;
     }
 
     .mr-teammate .mr-teammate-action {
@@ -689,7 +793,7 @@
     }
 
     .mr-aspect-content .mr-aspect-desc {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .swiper-slide .mr-stage-title {
@@ -754,6 +858,42 @@
 
 
 @media (max-width: 833px) {
+    .main-buttons-item-link .main-buttons-item-text-title {
+        font-size: 12px;
+    }
+    .mr-parameter-heading .mr-parameter-title {
+        font-size: 14px;
+    }
+    .mr-parameter-content .mr-parameter-desc {
+        font-size: 14px;
+    }
+
+    .mr-teammate-data .mr-teammate-name {
+        font-size: 16px;
+    }
+
+    .mr-teammate-data .mr-teammate-position {
+        font-size: 14px;
+    }
+
+    .swiper-slide .mr-stage-title {
+        font-size: 16px;
+    }
+
+    .mr-milestone-table-caption .mr-milestone-title {
+        font-size: 14px;
+        min-height: 26px;
+        height: 26px;
+    }
+
+    .mr-milestone-table-td .mr-milestone-fact {
+        font-size: 14px;
+    }
+
+    .mr-finance-group .mr-finance-group-heading {
+        gap: 8px
+    }
+
     .mr-teammate .mr-teammate-action {
         min-width: 32px;
         right: 12px;
