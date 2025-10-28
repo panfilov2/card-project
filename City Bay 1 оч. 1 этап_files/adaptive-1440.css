@@ -205,6 +205,14 @@
     font-weight: 400;
 }
 
+.feed-post-contentview .feed-post-text-block-inner-inner {
+    width: 100%;
+}
+
+.feed-post-text-block-inner-img {
+    width: 100%;
+}
+
 @media (min-width: 2560px) {
     .mr-finance-group-heading .mr-finance-group-title {
         font-size: 20px;
